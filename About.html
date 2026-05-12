@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About · agenticbuilders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" />
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .about-intro { padding: 100px 0; border-top: 1px solid var(--line); }
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .intro-prose p { color: var(--fg-2); font-size: 17px; line-height: 1.65; margin: 0 0 18px; max-width: 540px; }
+  .intro-prose p .hl { color: var(--fg); }
+  .intro-prose p .accent { color: var(--accent); font-style: italic; font-family: var(--serif); }
+  .intro-quote {
+    font-family: var(--serif); font-size: 36px; line-height: 1.2;
+    border-left: 2px solid var(--accent); padding: 20px 0 20px 28px;
+    color: var(--fg); position: sticky; top: 100px;
+  }
+  .intro-quote .ital { color: var(--accent); font-style: italic; }
+  .intro-quote-by { font-family: var(--mono); font-size: 11px; color: var(--fg-3); margin-top: 16px; letter-spacing: 0.1em; }
+
+  .values { padding: 100px 0; border-top: 1px solid var(--line); background: linear-gradient(180deg, var(--bg), var(--bg-1)); }
+  .val-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); margin-top: 56px; border: 1px solid var(--line); }
+  .val { background: var(--bg); padding: 36px; }
+  .val .num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; }
+  .val h3 { font-family: var(--serif); font-size: 32px; line-height: 1.1; margin: 14px 0 12px; font-weight: 400; }
+  .val p { color: var(--fg-2); font-size: 14.5px; line-height: 1.6; }
+
+  .team { padding: 100px 0; border-top: 1px solid var(--line); }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .team-card { border: 1px solid var(--line-2); background: var(--bg-1); padding: 28px; }
+  .team-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #c44a00); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 26px; color: #0a0a0a; margin-bottom: 18px; }
+  .team-card h4 { font-family: var(--serif); font-size: 22px; margin: 0 0 4px; font-weight: 400; }
+  .team-role { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.1em; margin-bottom: 14px; }
+  .team-card p { color: var(--fg-2); font-size: 13.5px; line-height: 1.55; }
+
+  .why-now { padding: 100px 0; border-top: 1px solid var(--line); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 40px; }
+  .why-col h3 { font-family: var(--serif); font-size: 28px; margin: 0 0 14px; }
+  .why-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .why-col li { padding-left: 20px; position: relative; color: var(--fg-2); font-size: 14.5px; line-height: 1.55; }
+  .why-col li::before { content: "+"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); }
+  .why-col.no li::before { content: "−"; color: var(--fg-3); }
+
+  .stats-strip { padding: 80px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-1); }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .stat .v { font-family: var(--serif); font-size: 64px; line-height: 1; color: var(--accent); }
+  .stat .v .sup { font-size: 22px; vertical-align: super; }
+  .stat .k { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.1em; margin-top: 8px; }
+
+  .cta-band { padding: 120px 0; border-top: 1px solid var(--line); text-align: center; position: relative; overflow: hidden; }
+  .cta-band-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, var(--accent-soft) 0%, transparent 60%); filter: blur(40px); pointer-events: none; }
+  .cta-band .inner { position: relative; z-index: 2; }
+
+  @media (max-width: 980px) { .intro-grid, .why-grid, .val-grid, .team-grid, .stats-grid { grid-template-columns: 1fr; } .intro-quote { position: static; } }
+</style>
+</head>
+<body data-page="about">
+  <div id="site-nav"></div>
+
+  <header class="page-hero">
+    <div class="grid-bg"></div>
+    <div class="page-hero-glow"></div>
+    <div class="wrap page-hero-inner">
+      <div class="crumbs"><a href="Agency.html">home</a><span class="sep">/</span><span>about</span></div>
+      <span class="eyebrow">[ THE STUDIO ]</span>
+      <h1 class="page-title">A studio for <em class="ital">engineered AI</em>.</h1>
+      <p class="page-sub">We're not a freelancer automation shop. Not a chatbot agency. Not a no-code consultancy. We engineer AI operational systems that replace repetitive business workflows — production-grade, observable, and owned by you.</p>
+    </div>
+  </header>
+
+  <!-- Intro -->
+  <section class="about-intro reveal">
+    <div class="wrap">
+      <div class="intro-grid">
+        <div class="intro-prose">
+          <span class="eyebrow">[ FOUNDER STORY ]</span>
+          <p style="margin-top:18px;"><span class="hl">In 2024,</span> after years of shipping AI features inside product teams at startups and enterprises, we kept seeing the same pattern: every business had a stack of tools, a backlog of manual processes, and no one technically equipped to wire them together properly.</p>
+          <p>The first wave of "AI agencies" filled the gap with brittle Zapier flows and chatbots glued to OpenAI. <span class="accent">It worked, until it didn't.</span> Tools changed, prompts drifted, no one knew why the system broke.</p>
+          <p>We started this studio to do the work the way our engineering teams would have: <span class="hl">production-grade systems</span> with eval harnesses, observability, version control, and runbooks. Built once. Owned by you. Designed to outlive any single vendor.</p>
+          <p>Today we work with operators across 7 industries — from dental clinics to SaaS — building voice agents, automation hubs, RAG systems, and reporting pipelines that quietly run their business in the background.</p>
+        </div>
+        <div>
+          <div class="intro-quote serif">
+            "We engineer AI operational systems that <em class="ital">replace</em> repetitive business workflows."
+            <div class="intro-quote-by">— OUR ONE-LINE BRIEF</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why now -->
+  <section class="why-now reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ AGENCY PHILOSOPHY ]</span>
+      <h2 class="section-title">What we are. <em class="ital">What we aren't</em>.</h2>
+      <div class="why-grid">
+        <div class="why-col">
+          <h3 class="serif">We are.</h3>
+          <ul>
+            <li>Engineering-led, not prompt-led</li>
+            <li>Systems-focused. Voice, agents, automation, RAG, reporting — composed, not isolated</li>
+            <li>ROI-driven. We measure hours saved, not features shipped</li>
+            <li>Enterprise-ready. SOC 2-aligned, SSO, audit trails, observability</li>
+            <li>Stack-agnostic. Your tools, your cloud, your code</li>
+            <li>Premium. Small client roster, long retainers, deep work</li>
+          </ul>
+        </div>
+        <div class="why-col no">
+          <h3 class="serif" style="color: var(--fg-3);">We aren't.</h3>
+          <ul>
+            <li>A freelancer-on-Upwork automation shop</li>
+            <li>A generic chatbot vendor</li>
+            <li>A "no-code only" consultancy</li>
+            <li>A reseller of someone else's SaaS</li>
+            <li>Cheap, fast, or template-driven</li>
+            <li>Interested in vanity metric dashboards</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="values reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ CORE VALUES ]</span>
+      <h2 class="section-title">The <em class="ital">four</em> we run on.</h2>
+      <div class="val-grid">
+        <div class="val"><div class="num">01</div><h3 class="serif">Production over prototype</h3><p>Anything we ship has retry logic, observability, alerts, and runbooks. If it can't survive Monday morning, we haven't shipped it.</p></div>
+        <div class="val"><div class="num">02</div><h3 class="serif">You own it</h3><p>Code in your repo, infra in your cloud, vendors you choose. We don't trap you in our platform. We don't have a platform.</p></div>
+        <div class="val"><div class="num">03</div><h3 class="serif">Evidence over hype</h3><p>We measure latency, deflection, recovery, hours saved. If the metric doesn't move, the system isn't worth running.</p></div>
+        <div class="val"><div class="num">04</div><h3 class="serif">Small, deep, long</h3><p>We take fewer clients. We go deeper. We stay longer. Most retainers run 12+ months because we keep finding wins.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-strip reveal">
+    <div class="wrap">
+      <div class="stats-grid">
+        <div class="stat"><div class="v serif">42<span class="sup">+</span></div><div class="k mono">CLIENTS SHIPPED</div></div>
+        <div class="stat"><div class="v serif">128</div><div class="k mono">AGENTS LIVE</div></div>
+        <div class="stat"><div class="v serif">19<span class="sup">d</span></div><div class="k mono">AVG TIME TO SHIP</div></div>
+        <div class="stat"><div class="v serif">71</div><div class="k mono">RETAINER NPS</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="team reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ THE PEOPLE ]</span>
+      <h2 class="section-title">Small, <em class="ital">senior</em>, async.</h2>
+      <p class="section-sub" style="margin-bottom: 0;">Five engineers, one designer, one ops lead. No juniors. No outsourcing. Distributed across three time zones.</p>
+      <div class="team-grid">
+        <div class="team-card"><div class="team-avatar">A</div><h4 class="serif">Adrien Lemaire</h4><div class="team-role">FOUNDER · ENGINEERING LEAD</div><p>Previously shipped agent infra at two YC-backed startups. Wrote the eval harness we use on every project.</p></div>
+        <div class="team-card"><div class="team-avatar">M</div><h4 class="serif">Maya Okafor</h4><div class="team-role">STAFF ENGINEER · VOICE + RAG</div><p>10 years in distributed systems. Owns our voice agent platform and RAG ingestion pipelines.</p></div>
+        <div class="team-card"><div class="team-avatar">R</div><h4 class="serif">Rin Tanaka</h4><div class="team-role">STAFF ENGINEER · AGENTS</div><p>Long-tenured at a major AI lab. Designs the orchestration, eval, and observability layer for every agent we ship.</p></div>
+        <div class="team-card"><div class="team-avatar">S</div><h4 class="serif">Sara Wexler</h4><div class="team-role">DESIGN · UX</div><p>Designs the human-facing interfaces — chat surfaces, dashboards, status pages — so non-technical operators actually use them.</p></div>
+        <div class="team-card"><div class="team-avatar">J</div><h4 class="serif">Jonas Eklund</h4><div class="team-role">ENGINEER · AUTOMATION + BI</div><p>n8n core contributor. Builds the automation hubs and reporting pipelines that quietly run your back office.</p></div>
+        <div class="team-card"><div class="team-avatar">P</div><h4 class="serif">Priya Raman</h4><div class="team-role">OPS · CLIENT LEAD</div><p>Runs every engagement end-to-end. The single thread between us and you — calendar, scope, reporting.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band reveal">
+    <div class="cta-band-glow"></div>
+    <div class="wrap inner">
+      <span class="eyebrow">[ WORK WITH US ]</span>
+      <h2 style="font-family: var(--serif); font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 18px 0 22px;">Looking for a <em class="ital" style="color: var(--accent);">long-term studio</em>?</h2>
+      <p style="color: var(--fg-2); font-size: 17px; max-width: 540px; margin: 0 auto 28px;">We take 2 new clients per quarter. The audit tells us whether we're a fit — and if not, you leave with a roadmap regardless.</p>
+      <div style="display: flex; gap: 14px; justify-content: center;">
+        <a class="btn-primary" href="FreeAudit.html">Start free audit</a>
+        <a class="btn-ghost" href="Contact.html">Or just say hi</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="site-chrome.js"></script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insights · agenticbuilders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" />
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .filter-bar { padding: 32px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .filter-bar .lbl { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.12em; margin-right: 12px; }
+  .chip { font-family: var(--mono); font-size: 11.5px; padding: 6px 12px; border: 1px solid var(--line-2); color: var(--fg-2); background: transparent; cursor: pointer; letter-spacing: 0.05em; transition: all .2s; }
+  .chip:hover { color: var(--fg); border-color: var(--accent); }
+  .chip.active { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+
+  .featured-band { padding: 80px 0 60px; }
+  .feat-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; }
+  .feat-card {
+    border: 1px solid var(--line-2); background: var(--bg-1); padding: 40px;
+    display: flex; flex-direction: column; gap: 18px; position: relative; overflow: hidden;
+    min-height: 460px; transition: border-color .2s;
+  }
+  .feat-card:hover { border-color: var(--accent); }
+  .feat-card .tag-row { display: flex; gap: 10px; align-items: center; font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.1em; }
+  .feat-card .tag { color: var(--accent); }
+  .feat-card .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--fg-3); }
+  .feat-card h3 { font-family: var(--serif); font-size: 44px; line-height: 1.05; margin: 0; font-weight: 400; }
+  .feat-card.small h3 { font-size: 28px; }
+  .feat-card p { color: var(--fg-2); font-size: 15px; line-height: 1.6; flex: 1; }
+  .feat-card.small p { font-size: 13.5px; }
+  .feat-card .meta { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.08em; display: flex; justify-content: space-between; }
+  .feat-glow { position: absolute; bottom: -100px; right: -100px; width: 320px; height: 320px; background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%); filter: blur(40px); pointer-events: none; }
+
+  .feat-side { display: flex; flex-direction: column; gap: 32px; }
+
+  .grid-band { padding: 60px 0 120px; }
+  .post-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .post {
+    background: var(--bg); padding: 28px; display: flex; flex-direction: column; gap: 14px;
+    cursor: pointer; transition: background .2s; min-height: 280px;
+  }
+  .post:hover { background: var(--bg-1); }
+  .post .top { display: flex; justify-content: space-between; align-items: flex-start; font-family: var(--mono); font-size: 11px; }
+  .post .num { color: var(--fg-3); letter-spacing: 0.08em; }
+  .post .cat { color: var(--accent); letter-spacing: 0.08em; }
+  .post h4 { font-family: var(--serif); font-size: 24px; line-height: 1.15; margin: 0; font-weight: 400; }
+  .post .excerpt { color: var(--fg-2); font-size: 13.5px; line-height: 1.55; flex: 1; }
+  .post .foot { font-family: var(--mono); font-size: 10.5px; color: var(--fg-3); letter-spacing: 0.08em; display: flex; justify-content: space-between; }
+
+  .post.code-feature { background: var(--bg-1); }
+  .code-snip {
+    font-family: var(--mono); font-size: 11px; line-height: 1.55;
+    background: #0c0c0d; border: 1px solid var(--line-2); padding: 12px; color: var(--fg-2);
+    border-radius: 2px; overflow: hidden; max-height: 90px;
+  }
+  .code-snip .kw { color: var(--accent); }
+  .code-snip .fn { color: #5fb6f7; }
+  .code-snip .str { color: #98d99e; }
+  .code-snip .com { color: var(--fg-3); }
+
+  .newsletter-band { padding: 100px 0; border-top: 1px solid var(--line); background: linear-gradient(180deg, var(--bg-1), var(--bg)); }
+  .nl-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 64px; align-items: center; }
+  .nl-form { display: flex; gap: 0; margin-top: 24px; max-width: 480px; }
+  .nl-form input {
+    flex: 1; background: transparent; border: 1px solid var(--line-2); border-right: none;
+    padding: 14px 18px; font-family: var(--mono); font-size: 13px; color: var(--fg); outline: none;
+  }
+  .nl-form input:focus { border-color: var(--accent); }
+  .nl-form button {
+    background: var(--accent); color: #0a0a0a; border: 1px solid var(--accent);
+    padding: 14px 22px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
+    cursor: pointer; font-weight: 600;
+  }
+  .nl-stats { border-left: 1px solid var(--line); padding-left: 48px; }
+  .nl-stat { font-family: var(--serif); font-size: 56px; line-height: 1; color: var(--accent); }
+  .nl-stats .lbl { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.1em; margin-top: 8px; }
+  .nl-stats > div + div { margin-top: 28px; }
+
+  @media (max-width: 980px) {
+    .feat-grid, .post-grid, .nl-grid { grid-template-columns: 1fr; }
+    .nl-stats { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 32px; }
+  }
+</style>
+</head>
+<body data-page="insights">
+  <div id="site-nav"></div>
+
+  <header class="page-hero">
+    <div class="grid-bg"></div>
+    <div class="page-hero-glow"></div>
+    <div class="wrap page-hero-inner">
+      <div class="crumbs"><a href="Agency.html">home</a><span class="sep">/</span><span>insights</span></div>
+      <span class="eyebrow">[ FIELD NOTES ]</span>
+      <h1 class="page-title">Notes from <em class="ital">production</em>.</h1>
+      <p class="page-sub">Patterns, postmortems, and benchmarks from the agents we ship. Written by engineers, not marketers. No "ultimate guide to" content. No SEO slop.</p>
+    </div>
+  </header>
+
+  <!-- Filter chips -->
+  <div class="wrap">
+    <div class="filter-bar">
+      <span class="lbl">// FILTER</span>
+      <button class="chip active">All</button>
+      <button class="chip">Voice agents</button>
+      <button class="chip">Automation</button>
+      <button class="chip">RAG</button>
+      <button class="chip">Evals</button>
+      <button class="chip">Observability</button>
+      <button class="chip">Postmortems</button>
+      <button class="chip">Benchmarks</button>
+    </div>
+  </div>
+
+  <!-- Featured -->
+  <section class="featured-band reveal">
+    <div class="wrap">
+      <div class="feat-grid">
+        <article class="feat-card">
+          <div class="feat-glow"></div>
+          <div class="tag-row mono"><span class="tag">FEATURED</span><span class="dot"></span><span>BENCHMARK</span><span class="dot"></span><span>18 MIN READ</span></div>
+          <h3 class="serif">The eval harness that saved a $40k voice deployment from drift.</h3>
+          <p>We open-sourced our internal eval framework after it caught a prompt regression on day 47 of a dental client's voice receptionist. Full breakdown of the harness, golden-set methodology, and the 14 metrics we track per release.</p>
+          <div class="meta mono"><span>// NOV 12, 2025 · MAYA OKAFOR</span><span style="color: var(--accent);">READ →</span></div>
+        </article>
+
+        <div class="feat-side">
+          <article class="feat-card small">
+            <div class="tag-row mono"><span class="tag">VOICE</span><span class="dot"></span><span>10 MIN</span></div>
+            <h3 class="serif">Latency budget for under-800ms voice agents.</h3>
+            <p>STT, LLM, TTS, network — where the milliseconds actually go.</p>
+            <div class="meta mono"><span>NOV 4 · RIN TANAKA</span><span style="color: var(--accent);">→</span></div>
+          </article>
+          <article class="feat-card small">
+            <div class="tag-row mono"><span class="tag">RAG</span><span class="dot"></span><span>14 MIN</span></div>
+            <h3 class="serif">Why your RAG accuracy stalls at 73%.</h3>
+            <p>The chunking, reranking, and citation patterns that finally moved it.</p>
+            <div class="meta mono"><span>OCT 28 · MAYA OKAFOR</span><span style="color: var(--accent);">→</span></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Post grid -->
+  <section class="grid-band reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ §02 — ALL POSTS ]</span>
+      <h2 class="section-title" style="margin-bottom: 56px;">Latest <em class="ital">field notes</em>.</h2>
+
+      <div class="post-grid">
+        <article class="post code-feature">
+          <div class="top"><span class="num">[ 028 ]</span><span class="cat">AGENTS</span></div>
+          <h4 class="serif">Retry trees for tool-calling agents that won't loop forever.</h4>
+          <div class="code-snip"><span class="com">// max 3 retries, exponential backoff</span><br><span class="kw">async function</span> <span class="fn">retryWithBudget</span>(tool, args) {<br>&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; <span class="str">3</span>; i++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">try</span> { <span class="kw">return await</span> tool(args); }</div>
+          <div class="foot"><span>OCT 21 · JONAS</span><span>9 MIN</span></div>
+        </article>
+
+        <article class="post">
+          <div class="top"><span class="num">[ 027 ]</span><span class="cat">POSTMORTEM</span></div>
+          <h4 class="serif">How a single typo in a system prompt cost us 14% deflection rate.</h4>
+          <p class="excerpt">A real postmortem from a client agent. The prompt regression slipped through staging because we weren't running eval-on-merge yet. What we changed.</p>
+          <div class="foot"><span>OCT 14 · RIN</span><span>11 MIN</span></div>
+        </article>
+
+        <article class="post">
+          <div class="top"><span class="num">[ 026 ]</span><span class="cat">AUTOMATION</span></div>
+          <h4 class="serif">n8n vs. Temporal: when each one is the right call.</h4>
+          <p class="excerpt">We've shipped both. n8n for the visible business workflow surface, Temporal for the long-running, fault-tolerant orchestration. A decision tree.</p>
+          <div class="foot"><span>OCT 7 · JONAS</span><span>13 MIN</span></div>
+        </article>
+
+        <article class="post">
+          <div class="top"><span class="num">[ 025 ]</span><span class="cat">OBSERVABILITY</span></div>
+          <h4 class="serif">14 signals every production agent should emit by day one.</h4>
+          <p class="excerpt">Latency P50/P95, token spend per turn, tool error rate, hallucination flags, recovery success rate. The full list with collection patterns.</p>
+          <div class="foot"><span>SEP 30 · ADRIEN</span><span>8 MIN</span></div>
+        </article>
+
+        <article class="post code-feature">
+          <div class="top"><span class="num">[ 024 ]</span><span class="cat">VOICE</span></div>
+          <h4 class="serif">Interrupt handling that doesn't feel robotic.</h4>
+          <div class="code-snip"><span class="com">// barge-in detection with VAD threshold</span><br><span class="kw">if</span> (vad.energy &gt; <span class="str">0.65</span> &amp;&amp; <span class="br">!</span>agent.speaking_critical) {<br>&nbsp;&nbsp;agent.<span class="fn">interrupt</span>();<br>&nbsp;&nbsp;tts.<span class="fn">cancel</span>();<br>}</div>
+          <div class="foot"><span>SEP 23 · MAYA</span><span>7 MIN</span></div>
+        </article>
+
+        <article class="post">
+          <div class="top"><span class="num">[ 023 ]</span><span class="cat">BENCHMARK</span></div>
+          <h4 class="serif">Claude 3.7 vs GPT-4o-mini on tool selection: 1,400 turn evals.</h4>
+          <p class="excerpt">Internal benchmark across 12 tool sets. Where each one breaks. Why we ended up with a router pattern that mixes both for production.</p>
+          <div class="foot"><span>SEP 16 · RIN</span><span>15 MIN</span></div>
+        </article>
+
+        <article class="post">
+          <div class="top"><span class="num">[ 022 ]</span><span class="cat">RAG</span></div>
+          <h4 class="serif">Citations that survive truncation.</h4>
+          <p class="excerpt">How we structure retrievals so the model can't fabricate sources, and so the UI can always render the doc reference. Pattern + code.</p>
+          <div class="foot"><span>SEP 9 · MAYA</span><span>10 MIN</span></div>
+        </article>
+
+        <article class="post">
+          <div class="top"><span class="num">[ 021 ]</span><span class="cat">EVALS</span></div>
+          <h4 class="serif">Golden sets that don't go stale.</h4>
+          <p class="excerpt">The 60/20/20 split: 60% real production turns, 20% synthetic edge cases, 20% adversarial. How we rotate it without overfitting.</p>
+          <div class="foot"><span>SEP 2 · ADRIEN</span><span>12 MIN</span></div>
+        </article>
+
+        <article class="post">
+          <div class="top"><span class="num">[ 020 ]</span><span class="cat">AGENTS</span></div>
+          <h4 class="serif">When to use a planner. When to use a router.</h4>
+          <p class="excerpt">Multi-step planners burn tokens. Routers can't recover from a bad first step. We use a hybrid — here's the decision boundary.</p>
+          <div class="foot"><span>AUG 26 · RIN</span><span>9 MIN</span></div>
+        </article>
+      </div>
+
+      <div style="margin-top: 56px; text-align: center;">
+        <a class="btn-ghost" href="#">Load more →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter-band reveal">
+    <div class="wrap">
+      <div class="nl-grid">
+        <div>
+          <span class="eyebrow">[ THE DROP ]</span>
+          <h2 class="section-title">Engineering notes, <em class="ital">every other Tuesday</em>.</h2>
+          <p class="section-sub" style="margin-bottom: 0;">One pattern, one postmortem, one benchmark. 6-minute read. No newsletter sponsorships, no upsells, no AI-generated filler. Just what we learned this week shipping production agents.</p>
+          <form class="nl-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='✓ SUBSCRIBED';">
+            <input type="email" placeholder="you@company.com" required />
+            <button type="submit">SUBSCRIBE →</button>
+          </form>
+          <p style="font-family: var(--mono); font-size: 11px; color: var(--fg-3); margin-top: 12px; letter-spacing: 0.05em;">3,247 subscribers · 1 unsubscribe per 200 issues sent</p>
+        </div>
+        <div class="nl-stats">
+          <div><div class="nl-stat serif">42</div><div class="lbl mono">ISSUES SHIPPED</div></div>
+          <div><div class="nl-stat serif">68%</div><div class="lbl mono">OPEN RATE (12mo avg)</div></div>
+          <div><div class="nl-stat serif">3.2k</div><div class="lbl mono">ENGINEERS SUBSCRIBED</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="site-chrome.js"></script>
+  <script>
+    document.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+    }));
+  </script>
+</body>
+</html>

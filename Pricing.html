@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pricing · agenticbuilders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" />
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .tier-band { padding: 100px 0; border-top: 1px solid var(--line); }
+  .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 56px; }
+  .tier { background: var(--bg); padding: 36px; display: flex; flex-direction: column; gap: 18px; position: relative; }
+  .tier.featured { background: var(--bg-1); border-top: 2px solid var(--accent); }
+  .tier .lbl { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.12em; text-transform: uppercase; }
+  .tier.featured .lbl { color: var(--accent); }
+  .tier h3 { font-family: var(--serif); font-size: 36px; margin: 0; font-weight: 400; line-height: 1; }
+  .tier .price { font-family: var(--serif); font-size: 56px; line-height: 1; color: var(--fg); }
+  .tier .price .from { font-family: var(--mono); font-size: 12px; color: var(--fg-3); letter-spacing: 0.1em; display: block; margin-bottom: 4px; }
+  .tier .price .unit { font-family: var(--mono); font-size: 14px; color: var(--fg-3); margin-left: 6px; }
+  .tier ul { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .tier li { color: var(--fg); font-size: 13.5px; padding-left: 22px; position: relative; line-height: 1.5; }
+  .tier li::before { content: "+"; position: absolute; left: 0; color: var(--accent); font-family: var(--mono); }
+  .tier .desc { color: var(--fg-2); font-size: 13.5px; line-height: 1.55; }
+  .tier .btn-primary, .tier .btn-ghost { width: 100%; justify-content: center; margin-top: auto; }
+  .tier-tag {
+    position: absolute; top: -1px; right: 24px;
+    background: var(--accent); color: #0a0a0a; padding: 4px 10px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+  }
+
+  .retainer { padding: 100px 0; border-top: 1px solid var(--line); background: linear-gradient(180deg, var(--bg), var(--bg-1)); }
+  .ret-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 56px; }
+  .ret-cell { background: var(--bg); padding: 32px; }
+  .ret-cell .h { font-family: var(--serif); font-size: 28px; margin: 0 0 8px; }
+  .ret-cell .price { font-family: var(--mono); font-size: 24px; color: var(--accent); margin: 0 0 12px; }
+  .ret-cell p { color: var(--fg-2); font-size: 13.5px; line-height: 1.55; margin: 0; }
+  .ret-cell ul { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--fg-2); }
+  .ret-cell ul li { padding-left: 16px; position: relative; }
+  .ret-cell ul li::before { content: "·"; position: absolute; left: 6px; color: var(--accent); }
+
+  .roi-band { padding: 100px 0; border-top: 1px solid var(--line); }
+  .roi-rows { margin-top: 40px; border-top: 1px solid var(--line); }
+  .roi-row { display: grid; grid-template-columns: 80px 1fr 2fr 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .roi-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+  .roi-q { font-family: var(--serif); font-size: 22px; }
+  .roi-a { color: var(--fg-2); font-size: 13.5px; line-height: 1.55; }
+  .roi-stat .big { font-family: var(--serif); font-size: 30px; color: var(--accent); line-height: 1; }
+  .roi-stat .small { font-family: var(--mono); font-size: 10.5px; color: var(--fg-3); letter-spacing: 0.08em; margin-top: 4px; }
+  .roi-stat { text-align: right; }
+
+  .compare-band { padding: 100px 0; border-top: 1px solid var(--line); }
+  .cmp { width: 100%; border-collapse: collapse; margin-top: 40px; }
+  .cmp th, .cmp td { padding: 16px 18px; text-align: left; border-bottom: 1px solid var(--line); font-size: 13.5px; }
+  .cmp thead th { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.1em; text-transform: uppercase; }
+  .cmp tbody td:first-child { color: var(--fg); font-weight: 500; }
+  .cmp td.us { background: var(--bg-1); color: var(--fg); }
+  .cmp .yes { color: #4ade80; font-family: var(--mono); }
+  .cmp .no { color: var(--fg-3); font-family: var(--mono); }
+  .cmp .meh { color: #fbbf24; font-family: var(--mono); }
+  .cmp .col-us { font-family: var(--mono); color: var(--accent); }
+
+  .faq-band { padding: 100px 0; border-top: 1px solid var(--line); }
+  .faq-row { border-bottom: 1px solid var(--line); padding: 22px 0; cursor: pointer; }
+  .faq-q { font-family: var(--serif); font-size: 22px; display: flex; justify-content: space-between; align-items: center; }
+  .faq-q .ind { color: var(--accent); font-family: var(--mono); font-size: 18px; transition: transform .25s; }
+  .faq-row.open .faq-q .ind { transform: rotate(45deg); }
+  .faq-a { color: var(--fg-2); font-size: 14.5px; line-height: 1.6; max-width: 760px; max-height: 0; overflow: hidden; transition: max-height .35s, padding .35s; }
+  .faq-row.open .faq-a { max-height: 240px; padding-top: 14px; }
+
+  .cta-band { padding: 120px 0; border-top: 1px solid var(--line); text-align: center; position: relative; overflow: hidden; }
+  .cta-band-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, var(--accent-soft) 0%, transparent 60%); filter: blur(40px); pointer-events: none; }
+
+  @media (max-width: 980px) { .tiers, .ret-grid { grid-template-columns: 1fr; } .roi-row { grid-template-columns: 1fr; gap: 6px; } }
+</style>
+</head>
+<body data-page="pricing">
+  <div id="site-nav"></div>
+
+  <header class="page-hero">
+    <div class="grid-bg"></div>
+    <div class="page-hero-glow"></div>
+    <div class="wrap page-hero-inner">
+      <div class="crumbs"><a href="Agency.html">home</a><span class="sep">/</span><span>pricing</span></div>
+      <span class="eyebrow">[ INVESTMENT TIERS ]</span>
+      <h1 class="page-title">Built once. <em class="ital">Owned</em> by you.</h1>
+      <p class="page-sub">Setup fee for the build. Optional retainer for ongoing optimization. No platform lock-in, no per-seat tax, no hidden vendor fees. Pricing reflects scope, not company size.</p>
+    </div>
+  </header>
+
+  <!-- Setup tiers -->
+  <section class="tier-band reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ §01 — SETUP ENGAGEMENTS ]</span>
+      <h2 class="section-title">Three <em class="ital">starting points</em>.</h2>
+
+      <div class="tiers">
+        <div class="tier">
+          <div class="lbl">// FOUNDATION</div>
+          <h3 class="serif">Single System</h3>
+          <p class="desc">One focused build. Voice receptionist, support agent, automation hub — whichever moves the needle first.</p>
+          <div class="price"><span class="from">FROM</span>$8k<span class="unit">setup</span></div>
+          <ul>
+            <li>One AI system in production</li>
+            <li>2–3 week sprint</li>
+            <li>Eval harness + observability</li>
+            <li>30 days post-launch support</li>
+            <li>Source code + runbooks delivered</li>
+          </ul>
+          <a class="btn-ghost" href="FreeAudit.html">Get audit</a>
+        </div>
+
+        <div class="tier featured">
+          <span class="tier-tag mono">MOST COMMON</span>
+          <div class="lbl">// OPERATING LAYER</div>
+          <h3 class="serif">Multi-System Sprint</h3>
+          <p class="desc">Two-to-four connected systems. Voice + automation + reporting, or your variant. The full operating layer.</p>
+          <div class="price"><span class="from">FROM</span>$24k<span class="unit">setup</span></div>
+          <ul>
+            <li>2–4 connected systems</li>
+            <li>4–8 week engagement</li>
+            <li>Unified observability dashboard</li>
+            <li>Audit + roadmap included</li>
+            <li>60 days post-launch support</li>
+            <li>SSO + audit trails</li>
+          </ul>
+          <a class="btn-primary" href="FreeAudit.html">Get audit</a>
+        </div>
+
+        <div class="tier">
+          <div class="lbl">// ENTERPRISE</div>
+          <h3 class="serif">Custom Engagement</h3>
+          <p class="desc">Multi-department rollouts, custom agents, on-prem deployments. Scoped per-project after discovery.</p>
+          <div class="price"><span class="from">FROM</span>$60k<span class="unit">setup</span></div>
+          <ul>
+            <li>Multi-team, multi-system</li>
+            <li>8–16 week engagement</li>
+            <li>On-prem / VPC deployment</li>
+            <li>Custom integrations</li>
+            <li>Dedicated Slack channel</li>
+            <li>SOC 2 + GDPR documentation</li>
+            <li>Quarterly business reviews</li>
+          </ul>
+          <a class="btn-ghost" href="Contact.html">Talk to us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Retainer -->
+  <section class="retainer reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ §02 — RETAINER OPTIONS ]</span>
+      <h2 class="section-title">Keep it <em class="ital">running</em>.</h2>
+      <p class="section-sub" style="margin-bottom: 0;">Optional. About 80% of clients keep us on for ongoing optimization, monitoring, and new builds.</p>
+      <div class="ret-grid">
+        <div class="ret-cell">
+          <div class="h serif">Steady-state</div>
+          <div class="price">$2k–$4k / mo</div>
+          <p>Monitoring, model updates, minor extensions, ticket-style requests.</p>
+          <ul><li>Quarterly health check</li><li>Model + prompt updates</li><li>2 hours / week of dev</li><li>Slack support, 24h SLA</li></ul>
+        </div>
+        <div class="ret-cell">
+          <div class="h serif">Active build</div>
+          <div class="price">$6k–$12k / mo</div>
+          <p>You have a roadmap. We work through it monthly.</p>
+          <ul><li>Active monthly sprints</li><li>1 new system per quarter</li><li>Full observability + on-call</li><li>Dedicated engineer + ops lead</li></ul>
+        </div>
+        <div class="ret-cell">
+          <div class="h serif">Embedded</div>
+          <div class="price">$18k+ / mo</div>
+          <p>We act as your in-house AI team. Available in standups, shipping continuously.</p>
+          <ul><li>2+ engineers embedded</li><li>Continuous deployment</li><li>Quarterly business reviews</li><li>Roadmap co-ownership</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI examples -->
+  <section class="roi-band reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ §03 — ROI EXAMPLES ]</span>
+      <h2 class="section-title">What this <em class="ital">pays back</em>.</h2>
+      <div class="roi-rows">
+        <div class="roi-row"><div class="roi-tag mono">// DENTAL</div><div class="roi-q serif">AI receptionist</div><div class="roi-a">Replaces $3.2k/mo of front-desk overflow. $14k setup recouped in 5 months.</div><div class="roi-stat"><div class="big">5mo</div><div class="small">PAYBACK</div></div></div>
+        <div class="roi-row"><div class="roi-tag mono">// E-COM</div><div class="roi-q serif">Support agent + ops hub</div><div class="roi-a">82% ticket deflection + 38h/week reclaimed in ops. $24k setup, $3k/mo retainer.</div><div class="roi-stat"><div class="big">3mo</div><div class="small">PAYBACK</div></div></div>
+        <div class="roi-row"><div class="roi-tag mono">// AGENCY</div><div class="roi-q serif">Reporting + content factory</div><div class="roi-a">Auto-generated weekly client reports + SEO content. Replaced 1.5 FTE.</div><div class="roi-stat"><div class="big">4mo</div><div class="small">PAYBACK</div></div></div>
+        <div class="roi-row"><div class="roi-tag mono">// SAAS</div><div class="roi-q serif">RAG support + onboarding</div><div class="roi-a">Reduced time-to-first-value from 4 weeks to 6 days. CSAT +14pts.</div><div class="roi-stat"><div class="big">2mo</div><div class="small">PAYBACK</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="compare-band reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ §04 — COMPARISON ]</span>
+      <h2 class="section-title">vs. the <em class="ital">alternatives</em>.</h2>
+      <table class="cmp">
+        <thead><tr><th></th><th>In-house hire</th><th>Generic agency</th><th>No-code freelancer</th><th class="col-us">agenticbuilders</th></tr></thead>
+        <tbody>
+          <tr><td>Time to first system</td><td>3–6 months</td><td>6–10 weeks</td><td>2–4 weeks</td><td class="us">2–4 weeks</td></tr>
+          <tr><td>Production-grade reliability</td><td class="yes">✓</td><td class="meh">~</td><td class="no">✗</td><td class="us yes">✓</td></tr>
+          <tr><td>Eval + observability</td><td class="meh">~</td><td class="no">✗</td><td class="no">✗</td><td class="us yes">✓</td></tr>
+          <tr><td>You own the code</td><td class="yes">✓</td><td class="meh">~</td><td class="no">✗</td><td class="us yes">✓</td></tr>
+          <tr><td>Multi-system coordination</td><td class="meh">~</td><td class="meh">~</td><td class="no">✗</td><td class="us yes">✓</td></tr>
+          <tr><td>Annual cost (typical)</td><td>$180k+</td><td>$80–150k</td><td>$15–40k</td><td class="us">$30–90k</td></tr>
+          <tr><td>Bus factor</td><td>1</td><td>3+</td><td>1</td><td class="us">6</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-band reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ COMMON QUESTIONS ]</span>
+      <h2 class="section-title">Before you <em class="ital">commit</em>.</h2>
+      <div style="max-width: 880px; margin-top: 40px;">
+        <div class="faq-row"><div class="faq-q">Why is there a setup fee?<span class="ind">+</span></div><div class="faq-a">The setup fee buys the build. Most AI agencies bake the cost into a high monthly that you keep paying forever even after the work is done. We don't — you pay for what we build, and the retainer is optional and proportionate.</div></div>
+        <div class="faq-row"><div class="faq-q">Do I have to take a retainer?<span class="ind">+</span></div><div class="faq-a">No. About 20% of clients walk after the build, run the system themselves, and check in only occasionally. The systems are documented and version-controlled. The retainer exists because most clients want continuous improvement, not because the system requires it.</div></div>
+        <div class="faq-row"><div class="faq-q">What about model API costs?<span class="ind">+</span></div><div class="faq-a">Pass-through. You bring the OpenAI / Anthropic / etc keys, you pay the bill directly. We model these in the audit so there are no surprises. For most clients model spend is &lt;$300/mo per system.</div></div>
+        <div class="faq-row"><div class="faq-q">Do you charge per seat?<span class="ind">+</span></div><div class="faq-a">No. The systems we build are deployed on your infrastructure. There's no per-seat license fee from us, ever.</div></div>
+        <div class="faq-row"><div class="faq-q">Can we start smaller?<span class="ind">+</span></div><div class="faq-a">Yes. The Foundation tier ($8k) is one focused system. Many clients start there to validate the working relationship before committing to a multi-system sprint.</div></div>
+        <div class="faq-row"><div class="faq-q">What if the system doesn't work?<span class="ind">+</span></div><div class="faq-a">We define success criteria with you upfront (latency, deflection rate, hours saved). If we don't hit them, we keep working until we do, or refund the difference. We've never had to refund — but it's in writing.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band reveal">
+    <div class="cta-band-glow"></div>
+    <div class="wrap" style="position: relative; z-index: 2;">
+      <span class="eyebrow">[ NEXT STEP ]</span>
+      <h2 style="font-family: var(--serif); font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 18px 0 22px;">Get a <em class="ital" style="color: var(--accent);">tailored quote</em>.</h2>
+      <p style="color: var(--fg-2); font-size: 17px; max-width: 540px; margin: 0 auto 28px;">The audit returns a scoped, time-boxed proposal. 5 minutes in. Custom number out.</p>
+      <div style="display: flex; gap: 14px; justify-content: center;">
+        <a class="btn-primary" href="FreeAudit.html">Start free audit</a>
+        <a class="btn-ghost" href="Contact.html">Or book a call</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="site-chrome.js"></script>
+  <script>
+    document.querySelectorAll('.faq-row').forEach(row => {
+      row.addEventListener('click', () => row.classList.toggle('open'));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Solutions · agenticbuilders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" />
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .sol-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; background: var(--line); margin-top: 60px; border: 1px solid var(--line); }
+  .sol-card { background: var(--bg); padding: 40px; position: relative; transition: background .25s; cursor: pointer; min-height: 320px; display: flex; flex-direction: column; }
+  .sol-card:hover { background: var(--bg-1); }
+  .sol-card:hover .sol-arr { transform: translateX(6px); color: var(--accent); }
+  .sol-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; }
+  .sol-icon { width: 48px; height: 48px; border: 1px solid var(--line-2); display: flex; align-items: center; justify-content: center; color: var(--accent); margin: 22px 0 18px; font-family: var(--mono); font-size: 18px; }
+  .sol-h { font-family: var(--serif); font-size: 32px; line-height: 1.05; margin: 0 0 10px; }
+  .sol-p { color: var(--fg-2); font-size: 14px; line-height: 1.6; max-width: 460px; flex: 1; }
+  .sol-meta { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 18px; }
+  .sol-meta .chip { background: transparent; }
+  .sol-arr { position: absolute; right: 32px; bottom: 32px; color: var(--fg-3); font-size: 24px; transition: transform .25s, color .25s; }
+
+  .roi-band { padding: 100px 0; border-top: 1px solid var(--line); }
+  .roi-rows { display: grid; grid-template-columns: 1fr; margin-top: 40px; border-top: 1px solid var(--line); }
+  .roi-row { display: grid; grid-template-columns: 80px 1fr 2fr 1fr; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .roi-row:hover { background: var(--bg-1); padding-left: 16px; padding-right: 16px; }
+  .roi-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+  .roi-q { font-family: var(--serif); font-size: 22px; line-height: 1.2; }
+  .roi-a { color: var(--fg-2); font-size: 13.5px; line-height: 1.6; }
+  .roi-stat { text-align: right; }
+  .roi-stat .big { font-family: var(--serif); font-size: 34px; color: var(--accent); line-height: 1; }
+  .roi-stat .small { font-family: var(--mono); font-size: 10.5px; color: var(--fg-3); letter-spacing: 0.08em; }
+
+  .industry-band { padding: 100px 0; border-top: 1px solid var(--line); background: linear-gradient(180deg, var(--bg) 0%, var(--bg-1) 100%); }
+  .ind-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 40px; }
+  .ind-cell {
+    padding: 22px; border: 1px solid var(--line-2); background: var(--bg);
+    display: flex; flex-direction: column; gap: 10px; transition: border-color .25s, transform .25s;
+  }
+  .ind-cell:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .ind-cell .name { font-family: var(--serif); font-size: 22px; line-height: 1; }
+  .ind-cell .stat { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.08em; }
+
+  .cta-band { padding: 120px 0; border-top: 1px solid var(--line); text-align: center; position: relative; overflow: hidden; }
+  .cta-band-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 400px;
+    background: radial-gradient(ellipse, var(--accent-soft) 0%, transparent 60%); filter: blur(40px); pointer-events: none; }
+  .cta-band .inner { position: relative; z-index: 2; }
+  .cta-h { font-family: var(--serif); font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 18px 0 22px; }
+  .cta-h .ital { color: var(--accent); font-style: italic; }
+  .cta-p { color: var(--fg-2); font-size: 17px; max-width: 540px; margin: 0 auto 28px; }
+  .cta-actions { display: flex; gap: 14px; justify-content: center; }
+
+  @media (max-width: 980px) { .sol-grid { grid-template-columns: 1fr; } .roi-row { grid-template-columns: 1fr; gap: 6px; padding: 18px 0; } .ind-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body data-page="solutions">
+  <div id="site-nav"></div>
+
+  <header class="page-hero">
+    <div class="grid-bg"></div>
+    <div class="page-hero-glow"></div>
+    <div class="wrap page-hero-inner">
+      <div class="crumbs"><a href="Agency.html">home</a><span class="sep">/</span><span>solutions</span></div>
+      <span class="eyebrow">[ BUSINESS OUTCOMES ]</span>
+      <h1 class="page-title">Solutions, <em class="ital">by the problem</em>.</h1>
+      <p class="page-sub">Not "what tools" — what outcomes. Pick the business problem you want solved and we'll show you the operating layer behind it.</p>
+    </div>
+  </header>
+
+  <section class="reveal" style="padding: 100px 0;">
+    <div class="wrap">
+      <span class="eyebrow">[ §01 — SEVEN SOLUTION CATEGORIES ]</span>
+      <h2 class="section-title">Pick a <em class="ital">problem</em>.<br>We map the system.</h2>
+
+      <div class="sol-grid">
+        <a href="#" class="sol-card" id="operations">
+          <div class="sol-num">01 / OPERATIONS</div>
+          <div class="sol-icon">⌘</div>
+          <h3 class="sol-h serif">Operations Automation</h3>
+          <p class="sol-p">Team workflow automation, internal ops, multi-department coordination. Replace the daily standup spreadsheet with a system that orchestrates itself.</p>
+          <div class="sol-meta"><span class="chip">Team workflows</span><span class="chip">Internal ops</span><span class="chip">Task routing</span></div>
+          <span class="sol-arr">→</span>
+        </a>
+
+        <a href="#" class="sol-card" id="sales">
+          <div class="sol-num">02 / SALES</div>
+          <div class="sol-icon">→</div>
+          <h3 class="sol-h serif">Sales Automation</h3>
+          <p class="sol-p">WhatsApp lead qualification, AI follow-up, appointment booking, CRM pipeline automation. Stop losing leads to slow human response time.</p>
+          <div class="sol-meta"><span class="chip">WhatsApp pipeline</span><span class="chip">AI follow-up</span><span class="chip">CRM sync</span></div>
+          <span class="sol-arr">→</span>
+        </a>
+
+        <a href="#" class="sol-card" id="support">
+          <div class="sol-num">03 / SUPPORT</div>
+          <div class="sol-icon">◉</div>
+          <h3 class="sol-h serif">Customer Support Automation</h3>
+          <p class="sol-p">AI FAQ + ticket handling, 24/7 first-line support, support workflow automation. 70–85% deflection without losing the human handoff for the hard cases.</p>
+          <div class="sol-meta"><span class="chip">AI tickets</span><span class="chip">24/7 coverage</span><span class="chip">Workflows</span></div>
+          <span class="sol-arr">→</span>
+        </a>
+
+        <a href="#" class="sol-card" id="onboarding">
+          <div class="sol-num">04 / ONBOARDING</div>
+          <div class="sol-icon">◆</div>
+          <h3 class="sol-h serif">Onboarding Automation</h3>
+          <p class="sol-p">Employee onboarding, client onboarding, HR workflows, training automation. Day-one experiences that don't depend on a Slack DM chain.</p>
+          <div class="sol-meta"><span class="chip">Client onboarding</span><span class="chip">HR workflows</span><span class="chip">Training</span></div>
+          <span class="sol-arr">→</span>
+        </a>
+
+        <a href="#" class="sol-card" id="reporting">
+          <div class="sol-num">05 / REPORTING</div>
+          <div class="sol-icon">≡</div>
+          <h3 class="sol-h serif">AI Reporting Automation</h3>
+          <p class="sol-p">Executive reporting, KPI dashboards, automated weekly digests, data consolidation. Replace the Monday "where are we" Slack thread with a dashboard that explains itself.</p>
+          <div class="sol-meta"><span class="chip">Exec reports</span><span class="chip">KPI dashboards</span><span class="chip">Anomaly alerts</span></div>
+          <span class="sol-arr">→</span>
+        </a>
+
+        <a href="#" class="sol-card" id="ecommerce">
+          <div class="sol-num">06 / E-COMMERCE</div>
+          <div class="sol-icon">$</div>
+          <h3 class="sol-h serif">E-commerce Automation</h3>
+          <p class="sol-p">Order ops, inventory workflows, customer notifications, returns management. Built around Shopify, but plays with any stack.</p>
+          <div class="sol-meta"><span class="chip">Order ops</span><span class="chip">Inventory</span><span class="chip">Returns</span></div>
+          <span class="sol-arr">→</span>
+        </a>
+
+        <a href="#" class="sol-card" id="content" style="grid-column: 1 / -1;">
+          <div class="sol-num">07 / CONTENT</div>
+          <div class="sol-icon">¶</div>
+          <h3 class="sol-h serif">AI Content Automation</h3>
+          <p class="sol-p">SEO content pipelines, social media automation, AI email campaigns, content repurposing. Output that compounds without bloating your headcount.</p>
+          <div class="sol-meta"><span class="chip">SEO pipelines</span><span class="chip">Social automation</span><span class="chip">Email campaigns</span><span class="chip">Repurposing</span></div>
+          <span class="sol-arr">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI examples -->
+  <section class="roi-band reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ §02 — ROI EXAMPLES ]</span>
+      <h2 class="section-title">What this <em class="ital">actually moves</em>.</h2>
+      <p class="section-sub" style="margin-bottom: 0;">Numbers from completed implementations, anonymized. Your mileage varies — but the shape doesn't.</p>
+
+      <div class="roi-rows">
+        <div class="roi-row"><div class="roi-tag mono">// SALES</div><div class="roi-q serif">Lead response time</div><div class="roi-a">WhatsApp AI pipeline replaces 4–8h manual reply cycle with sub-2-minute qualified response, 24/7.</div><div class="roi-stat"><div class="big">-94%</div><div class="small">RESPONSE LATENCY</div></div></div>
+        <div class="roi-row"><div class="roi-tag mono">// SUPPORT</div><div class="roi-q serif">Ticket deflection</div><div class="roi-a">First-line AI agent resolves repetitive questions, escalates only on edge cases. Less work, faster customers.</div><div class="roi-stat"><div class="big">82%</div><div class="small">RESOLVED W/O HUMAN</div></div></div>
+        <div class="roi-row"><div class="roi-tag mono">// OPS</div><div class="roi-q serif">Manual hours reclaimed</div><div class="roi-a">Cross-tool n8n hub replaces copy-paste between CRM, Sheets, Slack, accounting. Per ops team.</div><div class="roi-stat"><div class="big">38h</div><div class="small">PER WEEK</div></div></div>
+        <div class="roi-row"><div class="roi-tag mono">// REPORTING</div><div class="roi-q serif">Time to Monday report</div><div class="roi-a">Automated pipeline with AI-narrated summary. Executive digest in inbox by 7am.</div><div class="roi-stat"><div class="big">6h → 0</div><div class="small">WEEKLY EFFORT</div></div></div>
+        <div class="roi-row"><div class="roi-tag mono">// E-COM</div><div class="roi-q serif">Customer notifications</div><div class="roi-a">Shipping, returns, restock alerts orchestrated automatically. Fewer "where's my order" tickets.</div><div class="roi-stat"><div class="big">-67%</div><div class="small">"WHERE'S MY ORDER"</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries -->
+  <section class="industry-band reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ §03 — BY INDUSTRY ]</span>
+      <h2 class="section-title">Where it <em class="ital">lands fastest</em>.</h2>
+      <div class="ind-grid">
+        <a href="#" class="ind-cell"><span class="name serif">Dental clinics</span><span class="stat">AI receptionist · recall calls</span></a>
+        <a href="#" class="ind-cell"><span class="name serif">Real estate</span><span class="stat">Lead qualification · booking</span></a>
+        <a href="#" class="ind-cell"><span class="name serif">E-commerce</span><span class="stat">Orders · support · returns</span></a>
+        <a href="#" class="ind-cell"><span class="name serif">Law firms</span><span class="stat">Intake · doc processing</span></a>
+        <a href="#" class="ind-cell"><span class="name serif">Marketing agencies</span><span class="stat">Reporting · content factory</span></a>
+        <a href="#" class="ind-cell"><span class="name serif">HR & recruiting</span><span class="stat">Screening · onboarding</span></a>
+        <a href="#" class="ind-cell"><span class="name serif">SaaS</span><span class="stat">Support · CS · activation</span></a>
+        <a href="#" class="ind-cell"><span class="name serif">Other</span><span class="stat">Custom · talk to us →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band reveal">
+    <div class="cta-band-glow"></div>
+    <div class="wrap inner">
+      <span class="eyebrow">[ START HERE ]</span>
+      <h2 class="cta-h serif">Not sure <em class="ital">which fits</em>?</h2>
+      <p class="cta-p">Take the 5-minute audit. We'll tell you exactly what to automate first, what the ROI looks like, and what we'd build.</p>
+      <div class="cta-actions">
+        <a class="btn-primary" href="FreeAudit.html">Get free audit</a>
+        <a class="btn-ghost" href="Services.html">Browse technical services</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="site-chrome.js"></script>
+</body>
+</html>

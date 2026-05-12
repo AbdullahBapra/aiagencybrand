@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Free Automation Audit · agenticbuilders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" />
+<link rel="stylesheet" href="theme.css" />
+<style>
+  /* hero */
+  .audit-hero { padding: 100px 0 60px; position: relative; overflow: hidden; }
+  .audit-hero-inner { position: relative; z-index: 2; max-width: 880px; }
+  .audit-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 6px 14px; border: 1px solid var(--line-2);
+    border-radius: 999px; font-family: var(--mono); font-size: 11px;
+    color: var(--fg-2); letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--bg-1);
+  }
+  .audit-pill .b-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  .audit-title { font-family: var(--serif); font-weight: 400;
+    font-size: clamp(52px, 7.6vw, 104px); line-height: 0.95; letter-spacing: -0.025em;
+    margin: 22px 0 22px; }
+  .audit-title .ital { color: var(--accent); font-style: italic; }
+  .audit-sub { color: var(--fg-2); font-size: 18px; max-width: 580px; line-height: 1.55; margin-bottom: 36px; }
+  .audit-trust { display: flex; gap: 32px; flex-wrap: wrap; align-items: center; margin-top: 28px;
+    padding-top: 28px; border-top: 1px solid var(--line); }
+  .trust-cell { display: flex; flex-direction: column; gap: 4px; }
+  .trust-v { font-family: var(--serif); font-size: 36px; line-height: 1; color: var(--accent); }
+  .trust-k { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.08em; }
+
+  /* steps */
+  .how-steps { padding: 100px 0; border-top: 1px solid var(--line); }
+  .how-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; position: relative; }
+  .how-step { border: 1px solid var(--line-2); background: var(--bg-1); padding: 28px; position: relative; }
+  .how-step::before { content: ""; position: absolute; left: 0; top: 0; height: 2px; width: 40px; background: var(--accent); }
+  .how-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 14px; }
+  .how-h { font-family: var(--serif); font-size: 26px; line-height: 1.1; margin: 0 0 10px; }
+  .how-p { color: var(--fg-2); font-size: 13.5px; line-height: 1.55; }
+  .how-time { font-family: var(--mono); font-size: 10px; color: var(--fg-3); margin-top: 14px; letter-spacing: 0.1em; }
+
+  /* quiz */
+  .quiz-section { padding: 100px 0; border-top: 1px solid var(--line); position: relative; }
+  .quiz-shell {
+    display: grid; grid-template-columns: 320px 1fr; gap: 40px;
+    background: var(--bg-1); border: 1px solid var(--line-2);
+    overflow: hidden; margin-top: 40px;
+  }
+  .quiz-side { background: #080808; border-right: 1px solid var(--line); padding: 36px 28px; position: relative; }
+  .quiz-side-h { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 18px; }
+  .quiz-progress { display: flex; flex-direction: column; gap: 14px; margin-top: 10px; }
+  .qp-row { display: flex; gap: 14px; align-items: flex-start; padding: 10px 0; opacity: 0.5; transition: opacity .25s; }
+  .qp-row.is-active { opacity: 1; }
+  .qp-row.is-done { opacity: 0.7; }
+  .qp-num { font-family: var(--mono); font-size: 11px; color: var(--fg-3); min-width: 24px; padding-top: 2px; }
+  .qp-row.is-active .qp-num { color: var(--accent); }
+  .qp-row.is-done .qp-num::before { content: "✓ "; color: #4ade80; }
+  .qp-meta { display: flex; flex-direction: column; gap: 2px; }
+  .qp-name { font-size: 14px; color: var(--fg); }
+  .qp-sub { font-family: var(--mono); font-size: 10.5px; color: var(--fg-3); letter-spacing: 0.05em; }
+
+  .quiz-side-pulse {
+    margin-top: 36px; padding-top: 24px; border-top: 1px dashed var(--line);
+    font-family: var(--mono); font-size: 11px; color: var(--fg-3); display: flex; flex-direction: column; gap: 8px;
+  }
+  .quiz-side-pulse .ok { color: #4ade80; }
+
+  .quiz-body { padding: 40px; min-height: 540px; display: flex; flex-direction: column; }
+  .quiz-step-h { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; margin-bottom: 12px; }
+  .quiz-q { font-family: var(--serif); font-size: 36px; line-height: 1.1; margin: 0 0 8px; }
+  .quiz-q-sub { color: var(--fg-2); font-size: 14px; margin-bottom: 28px; }
+  .quiz-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .quiz-opt {
+    text-align: left; background: var(--bg-2); border: 1px solid var(--line-2);
+    color: var(--fg); padding: 16px 18px; cursor: pointer;
+    font-family: var(--sans); font-size: 14px; transition: border-color .2s, background .2s;
+    display: flex; gap: 12px; align-items: center;
+  }
+  .quiz-opt:hover { border-color: var(--accent); }
+  .quiz-opt.is-on { background: var(--accent-soft); border-color: var(--accent); color: var(--fg); }
+  .quiz-opt .check {
+    width: 16px; height: 16px; border: 1px solid var(--line-2); border-radius: 3px;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 11px;
+  }
+  .quiz-opt.is-on .check { background: var(--accent); border-color: var(--accent); color: #0a0a0a; }
+  .quiz-opt.is-on .check::after { content: "✓"; }
+
+  .quiz-input {
+    background: var(--bg-2); border: 1px solid var(--line-2);
+    color: var(--fg); padding: 16px 18px; font-family: var(--sans); font-size: 15px;
+    width: 100%; transition: border-color .2s;
+  }
+  .quiz-input:focus { outline: none; border-color: var(--accent); }
+  .quiz-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .quiz-actions {
+    margin-top: auto; padding-top: 32px;
+    display: flex; gap: 12px; align-items: center; justify-content: space-between;
+  }
+  .quiz-back {
+    background: transparent; color: var(--fg-3); border: 0; cursor: pointer;
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em;
+  }
+  .quiz-back:hover { color: var(--fg); }
+  .quiz-back:disabled { opacity: 0.3; cursor: default; }
+  .quiz-progress-bar { flex: 1; height: 2px; background: var(--bg-3); margin: 0 20px; position: relative; max-width: 220px; }
+  .quiz-progress-bar::after {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    background: var(--accent); width: var(--p, 14%); transition: width .4s;
+  }
+
+  /* results */
+  .results { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding-top: 8px; }
+  .score-card { background: var(--bg-2); border: 1px solid var(--line-2); padding: 28px; }
+  .score-big { font-family: var(--serif); font-size: 88px; line-height: 1; color: var(--accent); margin-bottom: 4px; }
+  .score-lbl { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.12em; text-transform: uppercase; }
+  .score-bar { height: 6px; background: var(--bg-3); margin: 18px 0; border: 1px solid var(--line); position: relative; overflow: hidden; }
+  .score-bar::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); width: var(--w, 78%); box-shadow: 0 0 12px var(--accent-soft); }
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 18px 0; border-top: 1px solid var(--line); }
+  .stat-cell { }
+  .stat-v { font-family: var(--serif); font-size: 32px; color: var(--fg); line-height: 1; }
+  .stat-v .sup { font-size: 14px; color: var(--accent); margin-right: 4px; }
+  .stat-k { font-family: var(--mono); font-size: 10.5px; color: var(--fg-3); letter-spacing: 0.08em; margin-top: 6px; }
+
+  .recs-card { background: var(--bg-2); border: 1px solid var(--line-2); padding: 28px; }
+  .recs-h { font-family: var(--serif); font-size: 22px; margin: 0 0 14px; }
+  .rec-row {
+    display: grid; grid-template-columns: 36px 1fr auto; gap: 14px;
+    padding: 14px 0; border-bottom: 1px dashed var(--line); align-items: start;
+  }
+  .rec-row:last-child { border-bottom: 0; }
+  .rec-icon {
+    width: 36px; height: 36px; border: 1px solid var(--accent); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 12px;
+  }
+  .rec-name { font-size: 14px; color: var(--fg); font-weight: 500; }
+  .rec-why { font-size: 12px; color: var(--fg-3); margin-top: 2px; }
+  .rec-impact { font-family: var(--mono); font-size: 11px; color: var(--accent); text-align: right; }
+
+  .flow-viz {
+    margin-top: 28px; padding: 24px; background: #080808; border: 1px solid var(--line-2);
+    grid-column: 1 / -1;
+  }
+  .flow-viz-h { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.12em; margin-bottom: 14px; text-transform: uppercase; }
+  .flow-row { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; padding: 8px 0; }
+  .flow-row.bad .pill { color: #fbbf24; border-color: #4a3d10; }
+  .flow-row.good .pill { color: #4ade80; border-color: #1f4a2d; }
+  .pill { padding: 4px 10px; border: 1px solid var(--line-2); background: var(--bg-2); color: var(--fg-2); display: inline-flex; align-items: center; }
+  .arrow { color: var(--fg-3); }
+
+  .book-cta {
+    grid-column: 1 / -1; margin-top: 28px;
+    background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+    border: 1px solid var(--accent); padding: 36px; text-align: center;
+  }
+  .book-cta h3 { font-family: var(--serif); font-size: 36px; margin: 0 0 12px; }
+  .book-cta p { color: var(--fg-2); max-width: 480px; margin: 0 auto 20px; font-size: 15px; }
+
+  /* faq */
+  .faq-section { padding: 100px 0; border-top: 1px solid var(--line); }
+  .faq-row { border-bottom: 1px solid var(--line); padding: 22px 0; }
+  .faq-q { font-family: var(--serif); font-size: 22px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .faq-q .ind { color: var(--accent); font-family: var(--mono); font-size: 18px; transition: transform .25s; }
+  .faq-row.open .faq-q .ind { transform: rotate(45deg); }
+  .faq-a { color: var(--fg-2); font-size: 14.5px; line-height: 1.6; max-width: 720px; max-height: 0; overflow: hidden; transition: max-height .35s, padding .35s; }
+  .faq-row.open .faq-a { max-height: 200px; padding-top: 14px; }
+
+  @media (max-width: 980px) {
+    .quiz-shell { grid-template-columns: 1fr; }
+    .quiz-side { border-right: 0; border-bottom: 1px solid var(--line); }
+    .how-grid { grid-template-columns: 1fr 1fr; }
+    .results { grid-template-columns: 1fr; }
+    .audit-trust { gap: 18px; }
+  }
+</style>
+</head>
+<body data-page="">
+  <div id="site-nav"></div>
+
+  <header class="audit-hero">
+    <div class="grid-bg"></div>
+    <div class="page-hero-glow"></div>
+    <div class="wrap audit-hero-inner">
+      <div class="crumbs">
+        <a href="Agency.html">home</a>
+        <span class="sep">/</span>
+        <span>free automation audit</span>
+      </div>
+      <span class="audit-pill"><span class="b-dot"></span> No sales pressure · 5 minute quiz · AI-generated report</span>
+      <h1 class="audit-title">Get a free<br><em class="ital">AI automation</em> audit.</h1>
+      <p class="audit-sub">Discover repetitive workflows, automation opportunities, AI use cases,
+        potential cost savings, and operational bottlenecks — in less than 5 minutes.</p>
+      <a href="#quiz" class="btn-primary">Start free audit</a>
+
+      <div class="audit-trust">
+        <div class="trust-cell"><div class="trust-v serif">5<span style="font-size:18px;vertical-align:super;color:var(--accent)">min</span></div><div class="trust-k mono">QUIZ TIME</div></div>
+        <div class="trust-cell"><div class="trust-v serif">12</div><div class="trust-k mono">DATA POINTS ANALYZED</div></div>
+        <div class="trust-cell"><div class="trust-v serif">$0</div><div class="trust-k mono">COST · NO CARD</div></div>
+        <div class="trust-cell"><div class="trust-v serif">3<span style="font-size:18px;vertical-align:super;color:var(--accent)">+</span></div><div class="trust-k mono">TAILORED RECOMMENDATIONS</div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-steps reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ HOW THE AUDIT WORKS ]</span>
+      <h2 class="section-title">Four steps. <em class="ital">Zero</em> friction.</h2>
+      <div class="how-grid">
+        <div class="how-step"><div class="how-num">STEP 01</div><h3 class="how-h serif">Answer questions</h3><p class="how-p">Quick questions about your business profile, workflows, pain points, and tool stack.</p><div class="how-time">// 2 minutes</div></div>
+        <div class="how-step"><div class="how-num">STEP 02</div><h3 class="how-h serif">AI analyzes ops</h3><p class="how-p">Our engine evaluates inefficiencies, maps repetitive workflows, and scores opportunities.</p><div class="how-time">// instant</div></div>
+        <div class="how-step"><div class="how-num">STEP 03</div><h3 class="how-h serif">Get insights</h3><p class="how-p">Automation score, hours saved, recommended systems, and a personalized ROI estimate.</p><div class="how-time">// 1 minute read</div></div>
+        <div class="how-step"><div class="how-num">STEP 04</div><h3 class="how-h serif">Book strategy call</h3><p class="how-p">If it fits, walk through your custom roadmap with our team. No pressure either way.</p><div class="how-time">// optional</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="quiz-section reveal" id="quiz">
+    <div class="wrap">
+      <span class="eyebrow">[ AUTOMATION OPPORTUNITY QUIZ ]</span>
+      <h2 class="section-title">A <em class="ital">mini AI consultant</em>,<br>reviewing your business.</h2>
+
+      <div class="quiz-shell" id="quiz-shell">
+        <aside class="quiz-side">
+          <div class="quiz-side-h">// progress</div>
+          <div class="quiz-progress" id="quiz-progress"></div>
+          <div class="quiz-side-pulse">
+            <div><span class="ok">●</span> session_a8f3 · live</div>
+            <div>model: claude-sonnet-4.5</div>
+            <div>weighting: v3.2</div>
+            <div>encrypted in transit</div>
+          </div>
+        </aside>
+        <main class="quiz-body" id="quiz-body">
+          <!-- rendered by JS -->
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ COMMON QUESTIONS ]</span>
+      <h2 class="section-title">Before you <em class="ital">click start</em>.</h2>
+      <div style="margin-top: 40px; max-width: 860px;">
+        <div class="faq-row"><div class="faq-q">Is this really free? <span class="ind">+</span></div><div class="faq-a">Yes. The audit, the analysis, and the AI-generated recommendations are free. We invest the time because most clients we work with come from this front door.</div></div>
+        <div class="faq-row"><div class="faq-q">What if my business is too small / too large? <span class="ind">+</span></div><div class="faq-a">The audit works for solo operators through 500-person teams. The recommendations scale to your actual operational complexity — not a template.</div></div>
+        <div class="faq-row"><div class="faq-q">Do I have to book a call after? <span class="ind">+</span></div><div class="faq-a">No. You get the full audit and recommendations regardless. Booking a strategy call is one click — or you can leave with the insights and implement them yourself.</div></div>
+        <div class="faq-row"><div class="faq-q">What happens to my data? <span class="ind">+</span></div><div class="faq-a">Encrypted in transit, stored only to generate your report. We don't sell, share, or train on your responses. GDPR + SOC 2 aligned.</div></div>
+        <div class="faq-row"><div class="faq-q">How accurate are the ROI estimates? <span class="ind">+</span></div><div class="faq-a">Directional, not contractual. We use weighted scoring based on 200+ completed implementations across similar industries. Your actual ROI depends on execution.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="site-chrome.js"></script>
+  <script>
+    /* Quiz state machine */
+    const STEPS = [
+      { id: 'industry', label: 'Industry', sub: 'context', q: "What industry are you in?", type: 'single',
+        options: ['Dental / Healthcare', 'Real Estate', 'E-commerce', 'Marketing Agency', 'Legal / Law Firm', 'SaaS / Tech', 'HR / Recruiting', 'Other'] },
+      { id: 'size', label: 'Company size', sub: 'scale', q: "How big is your team?", type: 'single',
+        options: ['Solo / founder-led', '2–10 people', '11–50 people', '50–250 people', '250+ people'] },
+      { id: 'leadvol', label: 'Lead volume', sub: 'demand', q: "Monthly lead / inquiry volume?", type: 'single',
+        options: ['0–50 / month', '50–200 / month', '200–1,000 / month', '1,000+ / month'] },
+      { id: 'painpoints', label: 'Pain points', sub: 'what hurts', q: "Which tasks eat most of your team's time?", subq: "Select all that apply.", type: 'multi',
+        options: ['Customer support', 'Onboarding', 'Reporting / dashboards', 'Lead follow-up', 'Scheduling / booking', 'Content creation', 'Data entry / migration', 'Invoicing / payments'] },
+      { id: 'tools', label: 'Tool stack', sub: 'integrations', q: "Which tools do you currently use?", subq: "Select all that apply.", type: 'multi',
+        options: ['HubSpot', 'Slack', 'WhatsApp Business', 'Google Sheets', 'Shopify', 'Stripe', 'Airtable', 'Notion', 'Salesforce', 'Other CRM'] },
+      { id: 'connected', label: 'Tool sync', sub: 'plumbing', q: "Do your tools talk to each other automatically today?", type: 'single',
+        options: ['Yes, mostly', 'Some of them', 'No, lots of copy-paste', "I'm not sure"] },
+      { id: 'ai', label: 'AI maturity', sub: 'readiness', q: "Have you automated workflows or used AI before?", type: 'single',
+        options: ['Never', 'Tried ChatGPT / Claude manually', 'Use Zapier / Make', 'Have custom automations', 'Have AI agents in production'] },
+      { id: 'goal', label: 'Goal', sub: 'outcome', q: "What's your #1 goal with AI / automation?", type: 'single',
+        options: ['Save time on operations', 'Reduce staff workload', 'Capture more leads', 'Improve customer support', 'Scale without hiring', 'Cut costs'] },
+      { id: 'budget', label: 'Budget', sub: 'investment', q: "What's a comfortable monthly budget?", type: 'single',
+        options: ['Under $1k / mo', '$1k–$3k / mo', '$3k–$10k / mo', '$10k+ / mo', 'Not sure yet'] },
+      { id: 'contact', label: 'Receive report', sub: 'delivery', q: "Where should we send your audit?", type: 'form' },
+    ];
+
+    let step = 0;
+    const answers = {};
+
+    function renderProgress() {
+      const wrap = document.getElementById('quiz-progress');
+      wrap.innerHTML = STEPS.map((s, i) => `
+        <div class="qp-row ${i === step ? 'is-active' : ''} ${i < step ? 'is-done' : ''}">
+          <div class="qp-num">${String(i+1).padStart(2,'0')}</div>
+          <div class="qp-meta">
+            <span class="qp-name">${s.label}</span>
+            <span class="qp-sub">${s.sub}</span>
+          </div>
+        </div>`).join('');
+    }
+
+    function renderStep() {
+      renderProgress();
+      const s = STEPS[step];
+      const body = document.getElementById('quiz-body');
+
+      let optionsHtml = '';
+      if (s.type === 'single') {
+        const selected = answers[s.id] || null;
+        optionsHtml = `<div class="quiz-options">${s.options.map(o => `
+          <button class="quiz-opt ${selected === o ? 'is-on' : ''}" data-v="${o}"><span class="check"></span><span>${o}</span></button>`).join('')}
+        </div>`;
+      } else if (s.type === 'multi') {
+        const selected = answers[s.id] || [];
+        optionsHtml = `<div class="quiz-options">${s.options.map(o => `
+          <button class="quiz-opt ${selected.includes(o) ? 'is-on' : ''}" data-v="${o}"><span class="check"></span><span>${o}</span></button>`).join('')}
+        </div>`;
+      } else if (s.type === 'form') {
+        optionsHtml = `
+          <div style="display:flex; flex-direction:column; gap:12px; max-width:520px;">
+            <input class="quiz-input" id="f-name" placeholder="Your name" value="${(answers.contact && answers.contact.name) || ''}" />
+            <input class="quiz-input" id="f-email" placeholder="Work email" type="email" value="${(answers.contact && answers.contact.email) || ''}" />
+            <input class="quiz-input" id="f-company" placeholder="Company name" value="${(answers.contact && answers.contact.company) || ''}" />
+          </div>
+          <p style="margin-top:18px; font-family:var(--mono); font-size:11px; color:var(--fg-3);">We never sell or share. Report sent in &lt; 60 seconds.</p>`;
+      }
+
+      const pct = Math.round(((step) / STEPS.length) * 100);
+      const nextLabel = step === STEPS.length - 1 ? 'Generate report' : 'Continue';
+
+      body.innerHTML = `
+        <div class="quiz-step-h">// SECTION ${String(step+1).padStart(2,'0')} / ${String(STEPS.length).padStart(2,'0')} · ${s.label.toUpperCase()}</div>
+        <h3 class="quiz-q">${s.q}</h3>
+        <p class="quiz-q-sub">${s.subq || (s.type === 'multi' ? 'Select all that apply.' : 'Pick one.')}</p>
+        ${optionsHtml}
+        <div class="quiz-actions">
+          <button class="quiz-back" ${step === 0 ? 'disabled' : ''} id="q-back">← back</button>
+          <div class="quiz-progress-bar" style="--p: ${pct}%"></div>
+          <button class="btn-primary" id="q-next">${nextLabel}</button>
+        </div>`;
+
+      body.querySelectorAll('.quiz-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const v = btn.dataset.v;
+          if (s.type === 'single') {
+            answers[s.id] = v;
+            // auto-advance after small delay
+            renderStep();
+            setTimeout(() => { if (step < STEPS.length - 1) { step++; renderStep(); } }, 240);
+          } else {
+            const cur = answers[s.id] || [];
+            if (cur.includes(v)) answers[s.id] = cur.filter(x => x !== v);
+            else answers[s.id] = [...cur, v];
+            renderStep();
+          }
+        });
+      });
+
+      document.getElementById('q-back').addEventListener('click', () => {
+        if (step > 0) { step--; renderStep(); }
+      });
+      document.getElementById('q-next').addEventListener('click', () => {
+        if (s.type === 'form') {
+          const name = document.getElementById('f-name').value;
+          const email = document.getElementById('f-email').value;
+          const company = document.getElementById('f-company').value;
+          if (!email) { document.getElementById('f-email').focus(); return; }
+          answers.contact = { name, email, company };
+          renderResults();
+          return;
+        }
+        if (step < STEPS.length - 1) { step++; renderStep(); }
+      });
+    }
+
+    function scoreAnswers() {
+      let score = 40;
+      // size weight
+      const sizeBoost = { 'Solo / founder-led': 8, '2–10 people': 14, '11–50 people': 22, '50–250 people': 26, '250+ people': 30 };
+      score += sizeBoost[answers.size] || 12;
+      // lead volume
+      const leadBoost = { '0–50 / month': 4, '50–200 / month': 10, '200–1,000 / month': 16, '1,000+ / month': 22 };
+      score += leadBoost[answers.leadvol] || 8;
+      // pain points add
+      const pains = (answers.painpoints || []).length;
+      score += Math.min(pains * 4, 16);
+      // tool sync gap = opportunity
+      if (answers.connected === 'No, lots of copy-paste') score += 10;
+      if (answers.connected === 'Some of them') score += 6;
+      score = Math.min(98, score);
+
+      const hours = Math.round((pains * 7) + (leadBoost[answers.leadvol] || 8) * 0.6 + 10);
+      const revenue = Math.round(hours * 65 + (leadBoost[answers.leadvol] || 8) * 180);
+
+      return { score, hours, revenue };
+    }
+
+    function recommendations() {
+      const recs = [];
+      const pains = answers.painpoints || [];
+      if (pains.includes('Lead follow-up') || pains.includes('Scheduling / booking')) {
+        recs.push({ name: 'WhatsApp AI Sales Pipeline', why: 'Slow lead follow-up · qualifies + books in minutes', impact: 'High' });
+      }
+      if (pains.includes('Customer support')) {
+        recs.push({ name: 'AI Customer Support Agent', why: 'Repetitive tickets · 24/7 first-line coverage', impact: 'High' });
+      }
+      if (pains.includes('Reporting / dashboards')) {
+        recs.push({ name: 'Executive BI Pipeline', why: 'Manual reporting bottlenecks · AI-narrated dashboards', impact: 'Med' });
+      }
+      if (pains.includes('Onboarding')) {
+        recs.push({ name: 'Onboarding Automation', why: 'Client/employee onboarding · workflows + comms', impact: 'Med' });
+      }
+      if (pains.includes('Data entry / migration')) {
+        recs.push({ name: 'AI Document Processing Agent', why: 'Document parsing + structured ingest', impact: 'High' });
+      }
+      if (pains.includes('Content creation')) {
+        recs.push({ name: 'AI Content Factory', why: 'SEO content pipelines · multi-channel distribution', impact: 'Med' });
+      }
+      if (!recs.length) {
+        recs.push({ name: 'n8n Operations Hub', why: 'Cross-tool sync · automation foundation', impact: 'High' });
+        recs.push({ name: 'AI Receptionist', why: '24/7 inbound voice coverage', impact: 'Med' });
+      }
+      return recs.slice(0, 4);
+    }
+
+    function renderResults() {
+      const { score, hours, revenue } = scoreAnswers();
+      const recs = recommendations();
+      const tier = score >= 75 ? 'High Opportunity' : score >= 55 ? 'Moderate Opportunity' : 'Foundational';
+
+      document.getElementById('quiz-progress').innerHTML = `
+        <div class="qp-row is-done"><div class="qp-num">✓</div><div class="qp-meta"><span class="qp-name">Quiz complete</span><span class="qp-sub">${STEPS.length} sections answered</span></div></div>
+        <div class="qp-row is-active"><div class="qp-num">→</div><div class="qp-meta"><span class="qp-name">Your audit report</span><span class="qp-sub">live</span></div></div>`;
+
+      const body = document.getElementById('quiz-body');
+      body.innerHTML = `
+        <div class="quiz-step-h">// AUDIT REPORT · ${(answers.contact && answers.contact.company) ? answers.contact.company.toUpperCase() : 'YOUR BUSINESS'}</div>
+        <h3 class="quiz-q">Your automation potential: <em style="color:var(--accent); font-style: italic;">${tier}.</em></h3>
+        <p class="quiz-q-sub">Generated from ${STEPS.length} data points · model: claude-sonnet-4.5 · v3.2</p>
+
+        <div class="results">
+          <div class="score-card">
+            <div class="score-lbl">// AUTOMATION SCORE</div>
+            <div class="score-big">${score}<span style="font-size:24px; color:var(--fg-3);">/100</span></div>
+            <div class="score-bar" style="--w:${score}%"></div>
+            <div class="stat-grid">
+              <div class="stat-cell"><div class="stat-v"><span class="sup">~</span>${hours}<span style="font-size:14px;color:var(--fg-3);">h</span></div><div class="stat-k">EST. HOURS SAVED / MO</div></div>
+              <div class="stat-cell"><div class="stat-v"><span class="sup">$</span>${revenue.toLocaleString()}</div><div class="stat-k">EST. REVENUE RECOVERY / MO</div></div>
+            </div>
+          </div>
+
+          <div class="recs-card">
+            <div class="quiz-side-h" style="margin-bottom:8px;">// TOP RECOMMENDATIONS</div>
+            <h4 class="recs-h serif">Systems we'd build for you.</h4>
+            ${recs.map((r, i) => `
+              <div class="rec-row">
+                <div class="rec-icon">${String(i+1).padStart(2,'0')}</div>
+                <div><div class="rec-name">${r.name}</div><div class="rec-why">${r.why}</div></div>
+                <div class="rec-impact">${r.impact}</div>
+              </div>`).join('')}
+          </div>
+
+          <div class="flow-viz">
+            <div class="flow-viz-h">// BEFORE → AFTER · LEAD FOLLOW-UP</div>
+            <div class="flow-row bad"><span class="pill">Lead arrives</span><span class="arrow">→</span><span class="pill">Manual delay (2-48h)</span><span class="arrow">→</span><span class="pill">Lead cools / lost</span></div>
+            <div class="flow-row good" style="margin-top:6px;"><span class="pill">Lead arrives</span><span class="arrow">→</span><span class="pill">AI qualification</span><span class="arrow">→</span><span class="pill">WhatsApp follow-up</span><span class="arrow">→</span><span class="pill">Meeting booked</span></div>
+          </div>
+
+          <div class="book-cta">
+            <h3 class="serif">Want us to <em class="ital" style="color:var(--accent);">build this</em> for you?</h3>
+            <p>Book a 30-minute strategy session. We'll walk through your custom roadmap, scope, and timeline. No sales pressure.</p>
+            <a class="btn-primary" href="Contact.html">Book strategy session</a>
+            <div style="margin-top: 14px; font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.08em;">OR · &nbsp;<a href="Insights.html" style="color: var(--fg-2);">read our case studies first →</a></div>
+          </div>
+        </div>`;
+    }
+
+    renderStep();
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-row').forEach(row => {
+      row.querySelector('.faq-q').addEventListener('click', () => row.classList.toggle('open'));
+    });
+  </script>
+</body>
+</html>

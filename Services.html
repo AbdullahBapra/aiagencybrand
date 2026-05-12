@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Services · agenticbuilders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" />
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .svc-pillar { padding: 100px 0; border-top: 1px solid var(--line); }
+  .svc-pillar:first-of-type { border-top: 0; padding-top: 80px; }
+  .svc-grid { display: grid; grid-template-columns: 280px 1fr 360px; gap: 48px; align-items: start; }
+  .svc-meta { position: sticky; top: 96px; }
+  .svc-meta .num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; }
+  .svc-meta .tag { font-family: var(--mono); font-size: 10.5px; color: var(--fg-3); letter-spacing: 0.12em; margin-top: 4px; }
+  .svc-meta h2 { font-family: var(--serif); font-size: 48px; line-height: 1; margin: 16px 0 14px; font-weight: 400; }
+  .svc-meta h2 .ital { color: var(--accent); font-style: italic; }
+  .svc-meta p { color: var(--fg-2); font-size: 14.5px; line-height: 1.55; margin: 0; }
+
+  .svc-subs { display: flex; flex-direction: column; gap: 12px; }
+  .svc-sub {
+    border: 1px solid var(--line-2); background: var(--bg-1); padding: 24px; transition: border-color .25s, transform .25s;
+    display: grid; grid-template-columns: 48px 1fr auto; gap: 18px; align-items: center;
+  }
+  .svc-sub:hover { border-color: var(--accent); transform: translateX(4px); }
+  .svc-sub-icon { width: 48px; height: 48px; border: 1px solid var(--line-2); display: flex; align-items: center; justify-content: center; color: var(--accent); font-family: var(--mono); font-size: 14px; }
+  .svc-sub h3 { font-family: var(--serif); font-size: 22px; margin: 0 0 4px; font-weight: 400; }
+  .svc-sub p { color: var(--fg-2); font-size: 13px; margin: 0; }
+  .svc-sub .arr { color: var(--fg-3); font-size: 20px; }
+  .svc-sub:hover .arr { color: var(--accent); }
+
+  .svc-side {
+    background: var(--bg-1); border: 1px solid var(--line-2); padding: 24px;
+  }
+  .svc-side h4 { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.12em; margin: 0 0 14px; text-transform: uppercase; }
+  .svc-side h4 + h4 { margin-top: 22px; }
+  .stack-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .eng-row { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; padding: 8px 0; border-bottom: 1px dashed var(--line); }
+  .eng-row:last-child { border-bottom: 0; }
+  .eng-row span:first-child { color: var(--fg-3); }
+  .eng-row span:last-child { color: var(--fg); }
+
+  /* integrations marquee */
+  .integ-band { padding: 60px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); overflow: hidden; }
+  .integ-row { display: flex; gap: 36px; animation: scroll 40s linear infinite; align-items: center; white-space: nowrap; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .integ-name { font-family: var(--mono); font-size: 18px; color: var(--fg-2); letter-spacing: 0.04em; }
+  .integ-sep { color: var(--accent); }
+
+  /* process */
+  .process-band { padding: 100px 0; border-top: 1px solid var(--line); }
+  .proc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .proc-step { padding: 28px; border: 1px solid var(--line-2); background: var(--bg-1); position: relative; }
+  .proc-step .num { font-family: var(--serif); font-size: 64px; line-height: 1; color: var(--accent); opacity: 0.4; position: absolute; top: 18px; right: 24px; }
+  .proc-step h3 { font-family: var(--serif); font-size: 30px; margin: 0 0 12px; font-weight: 400; }
+  .proc-step p { color: var(--fg-2); font-size: 14px; line-height: 1.55; }
+
+  .cta-band { padding: 120px 0; border-top: 1px solid var(--line); text-align: center; position: relative; overflow: hidden; }
+  .cta-band-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 800px; height: 400px; background: radial-gradient(ellipse, var(--accent-soft) 0%, transparent 60%); filter: blur(40px); pointer-events: none; }
+  .cta-band .inner { position: relative; z-index: 2; }
+  .cta-h { font-family: var(--serif); font-size: clamp(40px, 6vw, 72px); line-height: 1; margin: 18px 0 22px; }
+  .cta-h .ital { color: var(--accent); font-style: italic; }
+  .cta-p { color: var(--fg-2); font-size: 17px; max-width: 540px; margin: 0 auto 28px; }
+
+  @media (max-width: 980px) { .svc-grid { grid-template-columns: 1fr; } .svc-meta { position: static; } .proc-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-page="services">
+  <div id="site-nav"></div>
+
+  <header class="page-hero">
+    <div class="grid-bg"></div>
+    <div class="page-hero-glow"></div>
+    <div class="wrap page-hero-inner">
+      <div class="crumbs"><a href="Agency.html">home</a><span class="sep">/</span><span>services</span></div>
+      <span class="eyebrow">[ TECHNICAL CAPABILITIES ]</span>
+      <h1 class="page-title">Six <em class="ital">pillars</em>.<br>One operating layer.</h1>
+      <p class="page-sub">Voice, automation, agents, RAG, growth, reporting. Composed, observable, and yours to own — built on production-tested stacks, deployed on your infrastructure.</p>
+    </div>
+  </header>
+
+  <!-- VOICE -->
+  <section id="voice" class="svc-pillar reveal">
+    <div class="wrap">
+      <div class="svc-grid">
+        <aside class="svc-meta">
+          <div class="num">01 / 06</div>
+          <div class="tag">VOICE_AI</div>
+          <h2>AI Voice <em class="ital">Agents</em></h2>
+          <p>Sub-second latency voice agents for inbound coverage, outbound qualification, and payment recovery. Multilingual, CRM-aware, transferable to humans on edge cases.</p>
+        </aside>
+        <div class="svc-subs">
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">☎</div><div><h3 class="serif">AI Receptionist</h3><p>24/7 inbound. Books appointments, qualifies, routes. Talks to your CRM in real time.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">▶</div><div><h3 class="serif">AI Outbound Sales Caller</h3><p>Calls leads within 60s of arrival. Qualifies against ICP. Books meetings on owner's calendar.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">$</div><div><h3 class="serif">AI Payment Reminder Caller</h3><p>Recovers 30–90 day AR. Friendly, persistent, never escalates inappropriately.</p></div><span class="arr">→</span></a>
+        </div>
+        <aside class="svc-side">
+          <h4>// stack</h4>
+          <div class="stack-chips"><span class="chip">Vapi</span><span class="chip">Retell</span><span class="chip">Twilio</span><span class="chip">ElevenLabs</span><span class="chip">Deepgram</span><span class="chip">Whisper</span></div>
+          <h4>// engagement</h4>
+          <div><div class="eng-row"><span>Lead time</span><span>2–3 weeks</span></div><div class="eng-row"><span>Pricing from</span><span>$8k setup</span></div><div class="eng-row"><span>Format</span><span>Setup + retainer</span></div></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTOMATION -->
+  <section id="automation" class="svc-pillar reveal">
+    <div class="wrap">
+      <div class="svc-grid">
+        <aside class="svc-meta">
+          <div class="num">02 / 06</div>
+          <div class="tag">AUTOMATION_SYSTEMS</div>
+          <h2>AI Automation <em class="ital">Systems</em></h2>
+          <p>The operational backbone. n8n hubs that connect your tools, replace manual handoffs, and run 24/7 with rollback + observability.</p>
+        </aside>
+        <div class="svc-subs">
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">⌘</div><div><h3 class="serif">n8n Business Operations Hub</h3><p>Self-hosted, version-controlled, owned by you. Replaces 6–12 disconnected Zaps.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">⇄</div><div><h3 class="serif">Zapier / Make Migration</h3><p>Move from Zap chaos to a single observable platform. Cut tooling cost 60–80%.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">∾</div><div><h3 class="serif">Workflow Automation Systems</h3><p>Cross-tool orchestration: CRM, finance, comms, fulfillment. With retry + alerting.</p></div><span class="arr">→</span></a>
+        </div>
+        <aside class="svc-side">
+          <h4>// stack</h4>
+          <div class="stack-chips"><span class="chip">n8n</span><span class="chip">Temporal</span><span class="chip">Supabase</span><span class="chip">Make</span><span class="chip">Zapier</span><span class="chip">Inngest</span></div>
+          <h4>// engagement</h4>
+          <div><div class="eng-row"><span>Lead time</span><span>2–4 weeks</span></div><div class="eng-row"><span>Pricing from</span><span>$12k setup</span></div><div class="eng-row"><span>Format</span><span>Sprint + retainer</span></div></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGENTS -->
+  <section id="agents" class="svc-pillar reveal">
+    <div class="wrap">
+      <div class="svc-grid">
+        <aside class="svc-meta">
+          <div class="num">03 / 06</div>
+          <div class="tag">CUSTOM_AGENTS</div>
+          <h2>Custom AI <em class="ital">Agents</em></h2>
+          <p>Production-grade agents that execute work — not chatbots that talk about it. Eval harness, human checkpoints, observability.</p>
+        </aside>
+        <div class="svc-subs">
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">◉</div><div><h3 class="serif">AI Customer Support Agent</h3><p>Reads tickets, drafts replies, resolves repetitive issues. Escalates the hard 20%.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">¶</div><div><h3 class="serif">AI Proposal Generator</h3><p>Reads RFP, pulls from your library, drafts proposal. Human approves and sends.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">≡</div><div><h3 class="serif">AI Document Processing Agent</h3><p>Invoices, contracts, intake forms. Vision + structure + validation.</p></div><span class="arr">→</span></a>
+        </div>
+        <aside class="svc-side">
+          <h4>// stack</h4>
+          <div class="stack-chips"><span class="chip">LangGraph</span><span class="chip">Claude</span><span class="chip">GPT-4</span><span class="chip">Temporal</span><span class="chip">Inngest</span><span class="chip">Langfuse</span></div>
+          <h4>// engagement</h4>
+          <div><div class="eng-row"><span>Lead time</span><span>3–6 weeks</span></div><div class="eng-row"><span>Pricing from</span><span>$18k setup</span></div><div class="eng-row"><span>Format</span><span>Fixed sprint</span></div></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- RAG -->
+  <section id="rag" class="svc-pillar reveal">
+    <div class="wrap">
+      <div class="svc-grid">
+        <aside class="svc-meta">
+          <div class="num">04 / 06</div>
+          <div class="tag">RAG_SYSTEMS</div>
+          <h2>RAG <em class="ital">Systems</em></h2>
+          <p>Knowledge bases that answer like your senior staff. Cited, governed, grounded in your actual SOPs and docs.</p>
+        </aside>
+        <div class="svc-subs">
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">⊟</div><div><h3 class="serif">RAG Knowledge Base</h3><p>One source of truth across Notion, Drive, Confluence, Slack. Permission-aware.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7.5" cy="7.5" r="4.5"/><path d="M11 11 L15.5 15.5"/><path d="M5.5 7.5 L9.5 7.5" stroke-width="1"/></svg></div><div><h3 class="serif">Internal AI Search</h3><p>Slack-native search that cites. Stop asking "where's the doc for X" in #general.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">★</div><div><h3 class="serif">SOP AI Assistant</h3><p>Onboarded engineers ramp in days, not months. Your runbook as a colleague.</p></div><span class="arr">→</span></a>
+        </div>
+        <aside class="svc-side">
+          <h4>// stack</h4>
+          <div class="stack-chips"><span class="chip">Pinecone</span><span class="chip">pgvector</span><span class="chip">Cohere</span><span class="chip">Claude</span><span class="chip">LlamaIndex</span><span class="chip">Voyage</span></div>
+          <h4>// engagement</h4>
+          <div><div class="eng-row"><span>Lead time</span><span>2–5 weeks</span></div><div class="eng-row"><span>Pricing from</span><span>$14k setup</span></div><div class="eng-row"><span>Format</span><span>Sprint + retainer</span></div></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- GROWTH -->
+  <section id="growth" class="svc-pillar reveal">
+    <div class="wrap">
+      <div class="svc-grid">
+        <aside class="svc-meta">
+          <div class="num">05 / 06</div>
+          <div class="tag">GROWTH_SYSTEMS</div>
+          <h2>AI Growth <em class="ital">Systems</em></h2>
+          <p>The revenue layer of your operations. WhatsApp pipelines, qualification, content factories — pipelines that compound.</p>
+        </aside>
+        <div class="svc-subs">
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">✦</div><div><h3 class="serif">WhatsApp AI Sales Pipeline</h3><p>Qualifies + books in minutes. Plays nicely with your CRM. Multilingual.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">¶</div><div><h3 class="serif">AI Content Factory</h3><p>SEO-shaped articles, social posts, email sequences. Brief in, drafts out.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">◐</div><div><h3 class="serif">AI Lead Qualification</h3><p>Enrichment + scoring + routing. Sales sees only the leads worth calling.</p></div><span class="arr">→</span></a>
+        </div>
+        <aside class="svc-side">
+          <h4>// stack</h4>
+          <div class="stack-chips"><span class="chip">WhatsApp API</span><span class="chip">HubSpot</span><span class="chip">OpenAI</span><span class="chip">Twilio</span><span class="chip">n8n</span><span class="chip">Clay</span></div>
+          <h4>// engagement</h4>
+          <div><div class="eng-row"><span>Lead time</span><span>2–4 weeks</span></div><div class="eng-row"><span>Pricing from</span><span>$10k setup</span></div><div class="eng-row"><span>Format</span><span>Retainer-first</span></div></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- BI -->
+  <section id="bi" class="svc-pillar reveal">
+    <div class="wrap">
+      <div class="svc-grid">
+        <aside class="svc-meta">
+          <div class="num">06 / 06</div>
+          <div class="tag">BI_REPORTING</div>
+          <h2>BI &amp; <em class="ital">Reporting</em></h2>
+          <p>Executive reporting pipelines and AI-narrated dashboards. End the Monday-morning spreadsheet ritual.</p>
+        </aside>
+        <div class="svc-subs">
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">≣</div><div><h3 class="serif">Executive BI Reporting Pipeline</h3><p>Multi-source consolidation. Weekly digest with AI commentary in your inbox.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">◑</div><div><h3 class="serif">AI Dashboards</h3><p>Self-explaining metrics. Click a chart, get the why.</p></div><span class="arr">→</span></a>
+          <a class="svc-sub" href="#"><div class="svc-sub-icon">!</div><div><h3 class="serif">Automated Analytics</h3><p>Anomaly detection + alerting. Find out before customers do.</p></div><span class="arr">→</span></a>
+        </div>
+        <aside class="svc-side">
+          <h4>// stack</h4>
+          <div class="stack-chips"><span class="chip">BigQuery</span><span class="chip">Metabase</span><span class="chip">Looker</span><span class="chip">dbt</span><span class="chip">Hex</span><span class="chip">Snowflake</span></div>
+          <h4>// engagement</h4>
+          <div><div class="eng-row"><span>Lead time</span><span>3–5 weeks</span></div><div class="eng-row"><span>Pricing from</span><span>$14k setup</span></div><div class="eng-row"><span>Format</span><span>Sprint + retainer</span></div></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Integrations marquee -->
+  <section class="integ-band reveal">
+    <div class="integ-row">
+      <span class="integ-name">HUBSPOT</span><span class="integ-sep">/</span>
+      <span class="integ-name">SLACK</span><span class="integ-sep">/</span>
+      <span class="integ-name">SHOPIFY</span><span class="integ-sep">/</span>
+      <span class="integ-name">STRIPE</span><span class="integ-sep">/</span>
+      <span class="integ-name">NOTION</span><span class="integ-sep">/</span>
+      <span class="integ-name">SALESFORCE</span><span class="integ-sep">/</span>
+      <span class="integ-name">AIRTABLE</span><span class="integ-sep">/</span>
+      <span class="integ-name">CALENDLY</span><span class="integ-sep">/</span>
+      <span class="integ-name">SUPABASE</span><span class="integ-sep">/</span>
+      <span class="integ-name">NETSUITE</span><span class="integ-sep">/</span>
+      <span class="integ-name">QUICKBOOKS</span><span class="integ-sep">/</span>
+      <span class="integ-name">GMAIL</span><span class="integ-sep">/</span>
+      <span class="integ-name">WHATSAPP</span><span class="integ-sep">/</span>
+      <!-- duplicate for seamless scroll -->
+      <span class="integ-name">HUBSPOT</span><span class="integ-sep">/</span>
+      <span class="integ-name">SLACK</span><span class="integ-sep">/</span>
+      <span class="integ-name">SHOPIFY</span><span class="integ-sep">/</span>
+      <span class="integ-name">STRIPE</span><span class="integ-sep">/</span>
+      <span class="integ-name">NOTION</span><span class="integ-sep">/</span>
+      <span class="integ-name">SALESFORCE</span><span class="integ-sep">/</span>
+      <span class="integ-name">AIRTABLE</span><span class="integ-sep">/</span>
+      <span class="integ-name">CALENDLY</span><span class="integ-sep">/</span>
+      <span class="integ-name">SUPABASE</span><span class="integ-sep">/</span>
+      <span class="integ-name">NETSUITE</span><span class="integ-sep">/</span>
+      <span class="integ-name">QUICKBOOKS</span><span class="integ-sep">/</span>
+      <span class="integ-name">GMAIL</span><span class="integ-sep">/</span>
+      <span class="integ-name">WHATSAPP</span><span class="integ-sep">/</span>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="process-band reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ HOW WE WORK ]</span>
+      <h2 class="section-title">Audit. Build. <em class="ital">Optimize</em>.</h2>
+      <div class="proc-grid">
+        <div class="proc-step"><span class="num serif">01</span><h3 class="serif">Audit</h3><p>2-week diagnostic. We map every workflow, score automation potential, and propose a phased roadmap. You leave with a written plan whether we build or not.</p></div>
+        <div class="proc-step"><span class="num serif">02</span><h3 class="serif">Build</h3><p>2–6 week sprints. Production-grade code, deployed on your stack, with eval harness and observability baked in. Weekly check-ins, async-first.</p></div>
+        <div class="proc-step"><span class="num serif">03</span><h3 class="serif">Optimize</h3><p>Optional retainer. We monitor, tune, extend. As your business evolves, the system evolves with it.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band reveal">
+    <div class="cta-band-glow"></div>
+    <div class="wrap inner">
+      <span class="eyebrow">[ NEXT STEP ]</span>
+      <h2 class="cta-h serif">Find your <em class="ital">starting point</em>.</h2>
+      <p class="cta-p">5-minute audit tells you what to build first. Or skip the quiz and book a strategy call directly.</p>
+      <div style="display: flex; gap: 14px; justify-content: center;">
+        <a class="btn-primary" href="FreeAudit.html">Get free audit</a>
+        <a class="btn-ghost" href="Contact.html">Book a call</a>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="site-chrome.js"></script>
+</body>
+</html>

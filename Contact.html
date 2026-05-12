@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact · agenticbuilders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" />
+<link rel="stylesheet" href="theme.css" />
+<style>
+  .contact-band { padding: 100px 0; border-top: 1px solid var(--line); }
+  .c-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: start; }
+  .c-form { display: flex; flex-direction: column; gap: 22px; }
+  .c-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-family: var(--mono); font-size: 10.5px; color: var(--fg-3); letter-spacing: 0.1em; text-transform: uppercase; }
+  .field input, .field textarea, .field select {
+    background: var(--bg-1); border: 1px solid var(--line-2);
+    padding: 12px 14px; font-family: var(--inter); font-size: 14px; color: var(--fg); outline: none;
+    transition: border-color .2s, background .2s;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); background: var(--bg); }
+  .field textarea { resize: vertical; min-height: 140px; font-family: var(--inter); line-height: 1.5; }
+  .field select { font-family: var(--mono); font-size: 12.5px; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--accent) 50%), linear-gradient(135deg, var(--accent) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
+
+  .pillars { display: flex; flex-direction: column; gap: 14px; margin-top: 8px; }
+  .pillar { display: flex; gap: 10px; align-items: flex-start; padding: 11px 14px; border: 1px solid var(--line-2); cursor: pointer; transition: all .2s; }
+  .pillar:hover { border-color: var(--accent); background: var(--bg-1); }
+  .pillar.on { border-color: var(--accent); background: rgba(229,90,12,0.08); }
+  .pillar input { display: none; }
+  .pillar .box { width: 14px; height: 14px; border: 1px solid var(--line-2); flex-shrink: 0; margin-top: 2px; position: relative; }
+  .pillar.on .box { border-color: var(--accent); background: var(--accent); }
+  .pillar.on .box::after { content: "✓"; position: absolute; top: -3px; left: 1px; color: #0a0a0a; font-size: 11px; font-weight: 700; }
+  .pillar .ttl { font-family: var(--mono); font-size: 11.5px; color: var(--fg); letter-spacing: 0.05em; }
+  .pillar .dsc { font-size: 12px; color: var(--fg-3); margin-top: 1px; }
+
+  .submit-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+  .form-note { font-family: var(--mono); font-size: 11px; color: var(--fg-3); }
+
+  .c-side { display: flex; flex-direction: column; gap: 32px; position: sticky; top: 100px; }
+  .c-card { border: 1px solid var(--line-2); background: var(--bg-1); padding: 28px; }
+  .c-card .lbl { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.1em; }
+  .c-card h3 { font-family: var(--serif); font-size: 24px; margin: 10px 0 12px; font-weight: 400; }
+  .c-card p { color: var(--fg-2); font-size: 13.5px; line-height: 1.55; margin: 0; }
+  .c-card .link { color: var(--accent); font-family: var(--mono); font-size: 12.5px; margin-top: 14px; display: inline-block; text-decoration: none; }
+  .c-card .link:hover { text-decoration: underline; }
+
+  .status-strip { padding: 32px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-1); }
+  .status-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+  .status-item { display: flex; gap: 14px; align-items: center; font-family: var(--mono); font-size: 12px; color: var(--fg-2); letter-spacing: 0.05em; }
+  .status-item .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 12px #4ade80; }
+  .status-item .dot.amber { background: #fbbf24; box-shadow: 0 0 12px #fbbf24; }
+  .status-item .v { color: var(--accent); }
+
+  .offices { padding: 100px 0; border-top: 1px solid var(--line); }
+  .off-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 56px; }
+  .off-cell { background: var(--bg); padding: 32px; }
+  .off-cell .city-code { font-family: var(--mono); font-size: 11px; color: var(--fg-3); letter-spacing: 0.12em; }
+  .off-cell .city { font-family: var(--serif); font-size: 36px; line-height: 1; margin: 8px 0 16px; }
+  .off-cell .meta { font-family: var(--mono); font-size: 11.5px; color: var(--fg-2); line-height: 1.7; }
+  .off-cell .meta .k { color: var(--fg-3); }
+  .off-cell .now { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line-2); }
+
+  @media (max-width: 980px) { .c-grid, .c-row, .off-grid { grid-template-columns: 1fr; } .c-side { position: static; } }
+</style>
+</head>
+<body data-page="contact">
+  <div id="site-nav"></div>
+
+  <header class="page-hero">
+    <div class="grid-bg"></div>
+    <div class="page-hero-glow"></div>
+    <div class="wrap page-hero-inner">
+      <div class="crumbs"><a href="Agency.html">home</a><span class="sep">/</span><span>contact</span></div>
+      <span class="eyebrow">[ START A CONVERSATION ]</span>
+      <h1 class="page-title">Tell us what's <em class="ital">manual</em>.</h1>
+      <p class="page-sub">The audit is the fastest way in. But if you'd rather just talk, this form goes straight to Priya. She replies within a business day with either a scoped proposal or a "we're not the right fit, here's who is."</p>
+    </div>
+  </header>
+
+  <!-- Status strip -->
+  <section class="status-strip">
+    <div class="wrap">
+      <div class="status-row">
+        <div class="status-item"><span class="dot"></span>STUDIO STATUS: <span class="v">ACCEPTING Q1 ENGAGEMENTS</span></div>
+        <div class="status-item">CURRENT WAITLIST: <span class="v">~3 WEEKS</span></div>
+        <div class="status-item">RESPONSE TIME: <span class="v">&lt; 1 BUSINESS DAY</span></div>
+        <div class="status-item"><span class="dot amber"></span>Q2 SLOTS: <span class="v">3 / 8 REMAINING</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form + side -->
+  <section class="contact-band reveal">
+    <div class="wrap">
+      <div class="c-grid">
+        <div>
+          <span class="eyebrow">[ FORM · 90 SECONDS ]</span>
+          <h2 class="section-title">Project <em class="ital">brief</em>.</h2>
+
+          <form class="c-form" onsubmit="event.preventDefault(); this.querySelector('.btn-primary').textContent='✓ SENT — CHECK YOUR INBOX'; this.querySelector('.btn-primary').disabled=true;">
+            <div class="c-row">
+              <div class="field"><label>Your name</label><input type="text" required placeholder="Jane Doe" /></div>
+              <div class="field"><label>Work email</label><input type="email" required placeholder="jane@acme.com" /></div>
+            </div>
+            <div class="c-row">
+              <div class="field"><label>Company</label><input type="text" placeholder="Acme Inc." /></div>
+              <div class="field">
+                <label>Company size</label>
+                <select>
+                  <option>1–10</option><option>11–50</option><option selected>51–200</option><option>201–1000</option><option>1000+</option>
+                </select>
+              </div>
+            </div>
+            <div class="c-row">
+              <div class="field">
+                <label>Budget range</label>
+                <select>
+                  <option>&lt; $10k setup</option><option selected>$10k–30k setup</option><option>$30k–60k setup</option><option>$60k+ setup</option><option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Timeline</label>
+                <select>
+                  <option>This quarter</option><option selected>Next 1–2 months</option><option>Exploratory · no rush</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>What systems are you considering? (check all)</label>
+              <div class="pillars">
+                <label class="pillar"><input type="checkbox" /><span class="box"></span><span><div class="ttl">VOICE AGENTS</div><div class="dsc">Receptionist, outbound, IVR replacement</div></span></label>
+                <label class="pillar on"><input type="checkbox" checked /><span class="box"></span><span><div class="ttl">SUPPORT AGENTS</div><div class="dsc">Email, chat, ticket triage</div></span></label>
+                <label class="pillar"><input type="checkbox" /><span class="box"></span><span><div class="ttl">AUTOMATION HUBS</div><div class="dsc">n8n, Temporal, custom orchestration</div></span></label>
+                <label class="pillar"><input type="checkbox" /><span class="box"></span><span><div class="ttl">REPORTING + BI</div><div class="dsc">Auto-reports, internal dashboards</div></span></label>
+                <label class="pillar"><input type="checkbox" /><span class="box"></span><span><div class="ttl">RAG / KNOWLEDGE</div><div class="dsc">Internal Q&amp;A, doc search, onboarding</div></span></label>
+                <label class="pillar"><input type="checkbox" /><span class="box"></span><span><div class="ttl">NOT SURE YET</div><div class="dsc">Help me figure out what to build</div></span></label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>What's the most manual thing your team does right now?</label>
+              <textarea required placeholder="Be specific. Example: 'We have 2 customer support reps who spend ~30h/week answering the same 12 questions about shipping. Tickets average a 14-hour response time and CSAT is 3.4.'"></textarea>
+            </div>
+
+            <div class="submit-row">
+              <div class="form-note">PGP key on request · NDA available</div>
+              <button class="btn-primary" type="submit">SEND BRIEF →</button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="c-side">
+          <div class="c-card">
+            <div class="lbl mono">// FASTER ROUTE</div>
+            <h3 class="serif">Skip the form. Take the audit.</h3>
+            <p>A 5-minute structured intake that returns a personalized roadmap, time-to-value estimate, and ROI projection — automatically. Most clients start here.</p>
+            <a class="link mono" href="FreeAudit.html">START FREE AUDIT →</a>
+          </div>
+          <div class="c-card">
+            <div class="lbl mono">// LIVE</div>
+            <h3 class="serif">Book a 30-minute discovery call.</h3>
+            <p>Direct calendar. Priya runs it. No deck pitch — we ask about your stack, your bottleneck, your team. You leave with a recommendation regardless of fit.</p>
+            <a class="link mono" href="#">VIEW CALENDAR →</a>
+          </div>
+          <div class="c-card">
+            <div class="lbl mono">// DIRECT</div>
+            <h3 class="serif">Reach a human.</h3>
+            <p style="font-family: var(--mono); font-size: 13px; line-height: 1.85;">
+              <span style="color: var(--fg-3);">Email · </span>hello@agenticbuilders.dev<br>
+              <span style="color: var(--fg-3);">Discord · </span>agenticbuilders<br>
+              <span style="color: var(--fg-3);">GitHub · </span>@agenticbuilders<br>
+              <span style="color: var(--fg-3);">Signal · </span>on request
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offices -->
+  <section class="offices reveal">
+    <div class="wrap">
+      <span class="eyebrow">[ DISTRIBUTED ]</span>
+      <h2 class="section-title">Three <em class="ital">time zones</em>, one studio.</h2>
+      <p class="section-sub" style="margin-bottom: 0;">No HQ. We've never had one. Coverage across the working day means a system that pages at 3am Berlin time wakes someone whose lunch is just ending.</p>
+      <div class="off-grid">
+        <div class="off-cell">
+          <div class="city-code mono">// 01 / EU · CET</div>
+          <div class="city serif">Berlin</div>
+          <div class="meta mono">
+            <div><span class="k">LEAD ·</span> Adrien</div>
+            <div><span class="k">HOURS ·</span> 09:00–18:00 CET</div>
+            <div><span class="k">FOCUS ·</span> Engineering, voice</div>
+          </div>
+          <div class="now mono">● 14:32 LOCAL TIME</div>
+        </div>
+        <div class="off-cell">
+          <div class="city-code mono">// 02 / NA · EST</div>
+          <div class="city serif">Toronto</div>
+          <div class="meta mono">
+            <div><span class="k">LEAD ·</span> Maya</div>
+            <div><span class="k">HOURS ·</span> 09:00–18:00 EST</div>
+            <div><span class="k">FOCUS ·</span> RAG, observability</div>
+          </div>
+          <div class="now mono">● 08:32 LOCAL TIME</div>
+        </div>
+        <div class="off-cell">
+          <div class="city-code mono">// 03 / APAC · JST</div>
+          <div class="city serif">Tokyo</div>
+          <div class="meta mono">
+            <div><span class="k">LEAD ·</span> Rin</div>
+            <div><span class="k">HOURS ·</span> 10:00–19:00 JST</div>
+            <div><span class="k">FOCUS ·</span> Agent orchestration</div>
+          </div>
+          <div class="now mono">● 22:32 LOCAL TIME</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+  <script src="site-chrome.js"></script>
+  <script>
+    document.querySelectorAll('.pillar').forEach(p => {
+      p.addEventListener('click', e => {
+        if (e.target.tagName !== 'INPUT') { p.classList.toggle('on'); p.querySelector('input').checked = p.classList.contains('on'); }
+      });
+    });
+  </script>
+</body>
+</html>
